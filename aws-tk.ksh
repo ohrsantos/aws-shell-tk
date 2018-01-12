@@ -4,7 +4,7 @@
 ################################################################################
 SCRIPT_NAME="aws-tk"
 ################################################################################
-VERSION="0.47a"
+VERSION="0.49a"
 AUTHOR="Orlando Hehl Rebelo dos Santos"
 DATE_INI="10-01-2018"
 DATE_END="12-01-2018"
@@ -13,6 +13,7 @@ DATE_END="12-01-2018"
 #
 #12-01-2018 - getopts initial structure
 #12-01-2018 - add create action (not working)
+#12-01-2018 - add -P flag for broser TCP port number
 ################################################################################
 
 
@@ -28,16 +29,17 @@ INSTANCE_USR="ec2-user"
 
 usage(){
         echo $SCRIPT_NAME
-	echo "Usage: $SCRIPT_NAME.ksh [-u profile] [-r region] [-s service] [-l] [-a action]"
+	echo "Usage: $SCRIPT_NAME.ksh [-u profile] [-r region] [-s service] [-l] [-a action] [-P port]"
 	echo "  -u   Set the user profile name"
 	echo "  -r   Region"
 	echo "  -s   Service: ec2|s3|rds"
 	echo "  -l   List instances"
-	echo "  -a   Action to apply to EC2 instances: ssh|browser|create|start|stop|terminate"
+	echo "  -a   Action to apply to EC2 instances: ssh|browser|run|start|stop|terminate"
+	echo "  -P   TCP port number for browser app"
 	echo "  -h   Print help and exit"
 }
 
-while getopts "u:r:s:la:vh" arg
+while getopts "u:r:s:la:P:vh" arg
 do
         case $arg in
             u)
@@ -58,6 +60,9 @@ do
 
                 SERVICE="ec2"
                 ;;
+            P)
+                PORT=${OPTARG}
+                ;;
             v)
                 echo "${VERSION}"
                 exit 0
@@ -75,7 +80,7 @@ printf "$SCRIPT_NAME $VERSION - $DATE_END  \n\n"
 
 JSON_FMT="--output json"
 AWS="aws $PROFILE_USR $REGION"
-BROWSER='open  -n -a "Google Chrome.app"  --args --new-window'
+BROWSER="open  -n -a \"Google Chrome.app\"  --args --new-window"
 
 INSTANCES_TMP_FILE=.aws-shell.tmp
 PEM_FILE=~/stuff/aws/ohrs-aws-sp-br.pem
@@ -127,10 +132,10 @@ function run_action {
            ssh -i $PEM_FILE $INSTANCE_USR@${public_dns_name[$target]}
            ;;
        BROWSER_INSTANCE )
-           $BROWSER http://${public_dns_name[$target]}:$PORT
+           eval $BROWSER http://${public_dns_name[$target]}:$PORT
            ;;
-       CREATE_INSTANCE )
-           . ./aws-ec2-create-instance.sh
+       RUN_INSTANCE )
+           . ./aws-ec2-run-instance.sh
            ;;
        START_INSTANCE )
            $AWS ec2 start-instances --instance-ids  ${instance_id[$target]}
