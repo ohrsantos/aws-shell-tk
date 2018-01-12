@@ -4,34 +4,90 @@
 ################################################################################
 SCRIPT_NAME="aws-tk"
 ################################################################################
-VERSION="0.35a"
+VERSION="0.47a"
 AUTHOR="Orlando Hehl Rebelo dos Santos"
 DATE_INI="10-01-2018"
 DATE_END="12-01-2018"
 ################################################################################
+#Changes:
+#
+#12-01-2018 - getopts initial structure
+#12-01-2018 - add create action (not working)
+################################################################################
 
 
 
-PROFILE_USR=${1:-"a1"}
-action=${2:-"DESCRIBE"}
-port=${3:-"80"}
-
-REGION="sa-east-1"
-INSTANCE_USR="ec2-user"
+PROFILE_USR=""
+REGION=""
 SERVICE="ec2"
-JSON_FMT="--output json"
-AWS="aws --profile $PROFILE_USR --region $REGION"
+DESCRIBE=FALSE
+ACTION=""
+PORT="80"
 
+INSTANCE_USR="ec2-user"
+
+usage(){
+        echo $SCRIPT_NAME
+	echo "Usage: $SCRIPT_NAME.ksh [-u profile] [-r region] [-s service] [-l] [-a action]"
+	echo "  -u   Set the user profile name"
+	echo "  -r   Region"
+	echo "  -s   Service: ec2|s3|rds"
+	echo "  -l   List instances"
+	echo "  -a   Action to apply to EC2 instances: ssh|browser|create|start|stop|terminate"
+	echo "  -h   Print help and exit"
+}
+
+while getopts "u:r:s:la:vh" arg
+do
+        case $arg in
+            u)
+                PROFILE_USR="--profile $OPTARG"
+                ;;
+            r)
+                REGION="--region $OPTARG"
+                ;;
+            s)
+                DESCRIBE=TRUE
+                ;;
+            l)
+                DESCRIBE=TRUE
+                ;;
+            a)
+                ACTION="${OPTARG}_INSTANCE"
+                typeset -u ACTION
+
+                SERVICE="ec2"
+                ;;
+            v)
+                echo "${VERSION}"
+                exit 0
+                ;;
+            h|*)
+                usage
+                exit 1
+                ;;
+        esac
+done
+
+shift $(($OPTIND - 1))
+
+printf "$SCRIPT_NAME $VERSION - $DATE_END  \n\n"
+
+JSON_FMT="--output json"
+AWS="aws $PROFILE_USR $REGION"
 BROWSER='open  -n -a "Google Chrome.app"  --args --new-window'
 
 INSTANCES_TMP_FILE=.aws-shell.tmp
 PEM_FILE=~/stuff/aws/ohrs-aws-sp-br.pem
 
-printf "$SCRIPT_NAME $VERSION - $DATE_END  \n\n"
 
-$AWS $JSON_FMT ec2 describe-instances > $INSTANCES_TMP_FILE
+################################################################################
+# Imports
+################################################################################
+
 
 function load_instances_data {
+    $AWS $JSON_FMT ec2 describe-instances > $INSTANCES_TMP_FILE
     i=0
     while [[ $(jq ".Reservations | .[$i] | .Instances |. [0] |  .State.Name" < $INSTANCES_TMP_FILE ) != "null" ]]; do
     
@@ -66,12 +122,15 @@ function describe_instances {
 
 function run_action {
 
-   case $action in
-       START_SSH )
+   case $ACTION in
+       SSH_INSTANCE )
            ssh -i $PEM_FILE $INSTANCE_USR@${public_dns_name[$target]}
            ;;
-       START_BROWSER )
-           $BROWSER http://${public_dns_name[$target]}:$port
+       BROWSER_INSTANCE )
+           $BROWSER http://${public_dns_name[$target]}:$PORT
+           ;;
+       CREATE_INSTANCE )
+           . ./aws-ec2-create-instance.sh
            ;;
        START_INSTANCE )
            $AWS ec2 start-instances --instance-ids  ${instance_id[$target]}
@@ -89,9 +148,11 @@ function run_action {
 
 
 load_instances_data
-describe_instances
 
-if [[ $action != "DESCRIBE" ]]; then
+if [[ $DESCRIBE == TRUE ]]; then
+           describe_instances
+fi
+if [[ -n $ACTION ]]; then
    printf "Type the target instance number for the action: "
    read target
    run_action
@@ -103,3 +164,5 @@ rm -f $INSTANCES_TMP_FILE
 printf "\nbye!\n"
 
 exit 0
+################################################################################
+
