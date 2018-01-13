@@ -4,7 +4,7 @@
 ################################################################################
 SCRIPT_NAME="aws-shell-tk"
 ################################################################################
-VERSION="0.55a"
+VERSION="0.57a"
 AUTHOR="Orlando Hehl Rebelo dos Santos"
 DATE_INI="10-01-2018"
 DATE_END="12-01-2018"
@@ -128,40 +128,6 @@ PEM_FILE=~/stuff/aws/${KEY_PAIR}.pem
 ################################################################################
 . ./aws-ec2-run-instance.sh
 
-
-#function load_instances_data {
-#    $AWS $JSON_FMT ec2 describe-instances > $INSTANCES_TMP_FILE
-#    i=0
-#    while [[ $(jq ".Reservations | .[$i] | .Instances |. [0] |  .State.Name" < $INSTANCES_TMP_FILE ) != "null" ]]; do
-#    
-#       instance_id[$i]=$(jq ".Reservations | .[$i] | .Instances |. [0] |  .InstanceId" < $INSTANCES_TMP_FILE | tr -d ' "')
-#       state[$i]=$(jq ".Reservations | .[$i] | .Instances | .[0] |  .State.Name" < $INSTANCES_TMP_FILE | tr -d ' "')
-#
-#       launch_time[$i]=$(jq ".Reservations | .[$i] | .Instances | .[0] |  .LaunchTime" < $INSTANCES_TMP_FILE | tr -d ' "')
-#       #if [[ -z ${launch_time[$i]} ]]; then launch_time[$i]="        ---        "; fi
-#    
-#       public_dns_name[$i]=$(jq ".Reservations | .[$i] | .Instances | .[0] |  .PublicDnsName" < $INSTANCES_TMP_FILE | tr -d ' "')
-#       if [[ -z ${public_dns_name[$i]} ]]; then public_dns_name[$i]="---"; fi
-#    
-#       instance_name[$i]=$(jq ".Reservations | .[$i] | .Instances | .[0] |  .Tags | .[0] | .Value" < $INSTANCES_TMP_FILE | tr -d ' "')
-#       if [[ -z ${instance_name[$i]} ]]; then instance_name[$i]="---"; fi
-#
-#       ((i++))
-#    done
-#}
-#    
-#function describe_instances {
-#       printf "%-4s%-21s%-16s%-26s%-51s%-12s\n"  "No" "INSTANCE_ID" "STATE" "LAUNCH_TIME" "PUBLIC_DNS" "INSTANCE_NAME"
-#       for (( j=0; $j < $i; j++ )); do
-#           printf "%02u  %-21s%-16s%-26s%-51s%-12s\n" $j\
-#                                                               ${instance_id[$j]}\
-#                                                               ${state[$j]}\
-#                                                               ${launch_time[$j]}\
-#                                                               ${public_dns_name[$j]}\
-#                                                               ${instance_name[$j]}
-#        done
-#    
-#}
 
 function run_action {
 
