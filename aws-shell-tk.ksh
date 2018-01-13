@@ -129,33 +129,6 @@ PEM_FILE=~/stuff/aws/${KEY_PAIR}.pem
 . ./aws-ec2-run-instance.sh
 
 
-function run_ec2_action {
-
-   case $EC2_ACTION in
-       SSH_INSTANCE )
-           ssh -i $PEM_FILE $INSTANCE_USR@${public_dns_name[$target]}
-           ;;
-       BROWSER_INSTANCE )
-           eval $BROWSER http://${public_dns_name[$target]}:$PORT
-           ;;
-       RUN_INSTANCE )
-           run_instance
-           ;;
-       START_INSTANCE )
-           $AWS ec2 start-instances --instance-ids  ${instance_id[$target]}
-           ;;
-       STOP_INSTANCE )
-           $AWS ec2 stop-instances --instance-ids  ${instance_id[$target]}
-           ;;
-       TERMINATE_INSTANCE )
-           $AWS ec2 terminate-instances --instance-ids  ${instance_id[$target]}
-           ;;
-        *   )
-           echo "Default action."
-   esac
-}
-
-
 load_instances_data
 
 if [[ $DESCRIBE == TRUE ]]; then

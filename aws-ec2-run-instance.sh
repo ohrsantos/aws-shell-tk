@@ -45,3 +45,29 @@ function run_instance {
     echo "Instance created, summary:"
     $AWS ec2 describe-instances --filters "Name=instance-id, Values=$new_image_id"
 }
+
+function run_ec2_action {
+
+   case $EC2_ACTION in
+       SSH_INSTANCE )
+           ssh -i $PEM_FILE $INSTANCE_USR@${public_dns_name[$target]}
+           ;;  
+       BROWSER_INSTANCE )
+           eval $BROWSER http://${public_dns_name[$target]}:$PORT
+           ;;  
+       RUN_INSTANCE )
+           run_instance
+           ;;  
+       START_INSTANCE )
+           $AWS ec2 start-instances --instance-ids  ${instance_id[$target]}
+           ;;  
+       STOP_INSTANCE )
+           $AWS ec2 stop-instances --instance-ids  ${instance_id[$target]}
+           ;;  
+       TERMINATE_INSTANCE )
+           $AWS ec2 terminate-instances --instance-ids  ${instance_id[$target]}
+           ;;  
+        *   )   
+           echo "Default action."
+   esac
+}
