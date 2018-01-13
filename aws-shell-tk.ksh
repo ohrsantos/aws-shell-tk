@@ -27,7 +27,7 @@ PROFILE_USR=""
 REGION=""
 SERVICE="ec2"
 DESCRIBE=FALSE
-ACTION=""
+EC2_ACTION=""
 PORT="80"
 DOCKER_PROFILE="ohrsan"
 
@@ -70,8 +70,8 @@ do
                 DESCRIBE=TRUE
                 ;;
             a)
-                ACTION="${OPTARG}_INSTANCE"
-                typeset -u ACTION
+                EC2_ACTION="${OPTARG}_INSTANCE"
+                typeset -u EC2_ACTION
 
                 SERVICE="ec2"
                 ;;
@@ -131,7 +131,7 @@ PEM_FILE=~/stuff/aws/${KEY_PAIR}.pem
 
 function run_action {
 
-   case $ACTION in
+   case $EC2_ACTION in
        SSH_INSTANCE )
            ssh -i $PEM_FILE $INSTANCE_USR@${public_dns_name[$target]}
            ;;
@@ -162,9 +162,9 @@ if [[ $DESCRIBE == TRUE ]]; then
       describe_instances
 fi
 
-if [[ $ACTION == "RUN_INSTANCE" ]]; then
+if [[ $EC2_ACTION == "RUN_INSTANCE" ]]; then
    run_action
-elif [[ -n $ACTION ]]; then
+elif [[ -n $EC2_ACTION ]]; then
    printf "Type the target instance number for the action: "
    read target
    run_action
