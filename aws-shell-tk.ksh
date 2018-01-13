@@ -4,7 +4,7 @@
 ################################################################################
 SCRIPT_NAME="aws-shell-tk"
 ################################################################################
-VERSION="0.54a"
+VERSION="0.55a"
 AUTHOR="Orlando Hehl Rebelo dos Santos"
 DATE_INI="10-01-2018"
 DATE_END="12-01-2018"
@@ -16,6 +16,8 @@ DATE_END="12-01-2018"
 #12-01-2018 - added -P flag for TCP port number
 #12-01-2018 - added -N -t -V -U -T -k flags
 #12-01-2018 - disabled instance inquiry for run action
+#13-01-2018 - Changed script name
+#13-01-2018 - Changed the call to run instance to a function
 ################################################################################
 
 
@@ -123,6 +125,7 @@ PEM_FILE=~/stuff/aws/${KEY_PAIR}.pem
 ################################################################################
 # Imports
 ################################################################################
+. ./aws-ec2-run-instance.sh
 
 
 function load_instances_data {
@@ -169,7 +172,7 @@ function run_action {
            eval $BROWSER http://${public_dns_name[$target]}:$PORT
            ;;
        RUN_INSTANCE )
-           . ./aws-ec2-run-instance.sh
+           run_instance
            ;;
        START_INSTANCE )
            $AWS ec2 start-instances --instance-ids  ${instance_id[$target]}
