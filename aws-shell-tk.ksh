@@ -129,7 +129,7 @@ PEM_FILE=~/stuff/aws/${KEY_PAIR}.pem
 . ./aws-ec2-run-instance.sh
 
 
-function run_action {
+function run_ec2_action {
 
    case $EC2_ACTION in
        SSH_INSTANCE )
@@ -163,11 +163,11 @@ if [[ $DESCRIBE == TRUE ]]; then
 fi
 
 if [[ $EC2_ACTION == "RUN_INSTANCE" ]]; then
-   run_action
+   run_ec2_action
 elif [[ -n $EC2_ACTION ]]; then
    printf "Type the target instance number for the action: "
    read target
-   run_action
+   run_ec2_action
 fi
 
 
