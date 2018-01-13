@@ -2,7 +2,7 @@
 #        1         2         3         4         5         6         7         8         9
 #234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
 ################################################################################
-SCRIPT_NAME="aws-shell-tk"
+SCRIPT_NAME="shell-tk-aws"
 ################################################################################
 VERSION="0.57a"
 AUTHOR="Orlando Hehl Rebelo dos Santos"
@@ -19,6 +19,7 @@ DATE_END="12-01-2018"
 #13-01-2018 - Changed script name
 #13-01-2018 - Changed the call to run instance to a function
 #13-01-2018 - Moved load and describe functions to aws-ec2-run-instance.sh module
+#13-01-2018 - Changed script name
 ################################################################################
 
 
@@ -126,7 +127,7 @@ PEM_FILE=~/stuff/aws/${KEY_PAIR}.pem
 ################################################################################
 # Imports
 ################################################################################
-. ./aws-ec2-run-instance.sh
+. ./ec2-shell-tk-aws.ksh
 
 
 load_instances_data
