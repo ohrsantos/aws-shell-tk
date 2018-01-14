@@ -4,10 +4,10 @@
 ################################################################################
 SCRIPT_NAME="shell-tk-aws"
 ################################################################################
-VERSION="0.57a"
+VERSION="0.58a"
 AUTHOR="Orlando Hehl Rebelo dos Santos"
 DATE_INI="10-01-2018"
-DATE_END="12-01-2018"
+DATE_END="13-01-2018"
 ################################################################################
 #Changes:
 #
@@ -20,6 +20,7 @@ DATE_END="12-01-2018"
 #13-01-2018 - Changed the call to run instance to a function
 #13-01-2018 - Moved load and describe functions to aws-ec2-run-instance.sh module
 #13-01-2018 - Changed script name
+#13-01-2018 - added -n flag
 ################################################################################
 
 
@@ -33,12 +34,14 @@ PORT="80"
 DOCKER_PROFILE="ohrsan"
 
 INSTANCE_USR="ec2-user"
+#INSTANCE_NAME=""
+BOOTSTRAP_FILE=./meteor-user-data.template.txt
 KEY_PAIR="ohrs-aws-sp-br"
 AMI_ID="ami-3d4d0f51"
 
 usage(){
         echo $SCRIPT_NAME
-	echo "Usage: $SCRIPT_NAME.ksh [-u profile] [-r region] [-s service] [-l] [-a action] [-P port] [-N container-name] [-t container-tag] [-V container-volume] [-U docker-profile] [-T bootstrap-file] [-I ami-instance-id"] [-k key-pair]"
+	echo "Usage: $SCRIPT_NAME.ksh [-u profile] [-r region] [-s service] [-l] [-a action] [-P port] [-N container-name] [-t container-tag] [-V container-volume] [-U docker-profile] [-T bootstrap-file] [-I ami-instance-id"] [-k key-pair] [-n instance-name]"
 	echo "  -u   Set AWS user profile name"
 	echo "  -r   Region"
 	echo "  -s   Service: ec2|s3|rds"
@@ -52,10 +55,11 @@ usage(){
 	echo "  -T   Name of the bootstrap file"
 	echo "  -I   AMI instance id for instance instantiation
 	echo "  -K   specify key pair"
+	echo "  -n   specify instance name"
 	echo "  -h   Print help and exit"
 }
 
-while getopts "u:r:s:la:P:N:t:V:T:I:K:vh" arg
+while getopts "u:r:s:la:P:N:t:V:T:I:K:n:vh" arg
 do
         case $arg in
             u)
@@ -81,6 +85,7 @@ do
                 ;;
             N)
                 CONTAINER_APP_NAME=${OPTARG}
+                if [[ -z $INSTANCE_NAME ]]; then INSTANCE_NAME=$CONTAINER_APP_NAME; fi
                 ;;
             t)
                 CONTAINER_TAG=${OPTARG}
@@ -99,6 +104,9 @@ do
                 ;;
             K)
                 KEY_PAIR=${OPTARG}
+                ;;
+            n)
+                INSTANCE_NAME="${OPTARG}"
                 ;;
             v)
                 echo "${VERSION}"
