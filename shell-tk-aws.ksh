@@ -32,6 +32,7 @@ DESCRIBE=FALSE
 EC2_ACTION=""
 PORT="80"
 DOCKER_PROFILE="ohrsan"
+CONTAINER_VOLUME=""
 
 INSTANCE_USR="ec2-user"
 #INSTANCE_NAME=""
@@ -91,7 +92,9 @@ do
                 CONTAINER_TAG=${OPTARG}
                 ;;
             V)
-                CONTAINER_VOLUME=${OPTARG}
+                if [[ -n ${OPTARG} ]]; then
+                    CONTAINER_VOLUME="-v ${OPTARG}"
+                fi
                 ;;
             u)
                 DOCKER_PROFILE=$OPTARG
