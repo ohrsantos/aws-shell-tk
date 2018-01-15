@@ -7,7 +7,7 @@ SCRIPT_NAME="run-aws-instance.template"
 #instance launch. Note that it contains variables and container run command
 #if container will not be used, dissmis those parametrization accordantly
 ################################################################################
-VERSION="0.02a"
+VERSION="0.03a"
 AUTHOR="Orlando Hehl Rebelo dos Santos"
 DATE_INI="14-01-2018"
 DATE_END="15-01-2018"
@@ -26,22 +26,22 @@ REGION="sa-east-1"
 INSTANCE_DRY_RUN="--dry-run" #Comment this hole line to enable processing 
 INSTANCE_KEY_PAIR="ohrs-aws-sp-br"
 INSTANCE_SECURITY_GRP="ohrs-default"
-INSTANCE_NAME="meteor-container-a"
+INSTANCE_NAME="jenkins-tutorial"
 INSTANCE_USR="ec2-user"
 INSTANCE_AMI_ID="ami-3d4d0f51"
 INSTANCE_TYPE="t2.micro"
 INSTANCE_COUNT="1"
 INSTANCE_DATA_FILE="user-data.txt"
 
-DOCKER_PROFILE="ohrsan"
-CONTAINER_APP_NAME="meteor-container-a"
-CONTAINER_TAG="1"
+DOCKER_PROFILE="jenkinsci"
+CONTAINER_REPO="blueocean"
+CONTAINER_APP_NAME="jenkins"
+CONTAINER_TAG=""
 #These options bellow due to their many variations,
 #requires that you provide the necessary flags.
-CONTAINER_MNT_VOLUME="-v /var/meteor/app"
-CONTAINER_PORT="-p 3331:3000"
+CONTAINER_MNT_VOLUME="-v jenkins-data:/var/jenkins_home -v jenkins-data:/var/jenkins_home -v \$HOME:/home"
+CONTAINER_PORT="-p 8080:8080"
 CONTAINER_OTHERS="-u root"
-
 ################################################################################
 
 
@@ -87,7 +87,7 @@ user_data=(
 "echo \"done\" >> /etc/rc.d/rc.local"
 
 # Docker run command ..."
-"su $INSTANCE_USR -c \"docker run -d ${CONTAINER_PORT} $CONTAINER_MNT_VOLUME --name ${CONTAINER_APP_NAME}-app-${CONTAINER_TAG} ${CONTAINER_OTHERS} ${DOCKER_PROFILE}/${CONTAINER_APP_NAME}-app:${CONTAINER_TAG}\""
+"su $INSTANCE_USR -c \"docker run -d ${CONTAINER_PORT} $CONTAINER_MNT_VOLUME --name ${CONTAINER_APP_NAME}-app-${CONTAINER_TAG} ${CONTAINER_OTHERS} ${DOCKER_PROFILE}/${CONTAINER_REPO}${CONTAINER_TAG}\""
 
 )
 
