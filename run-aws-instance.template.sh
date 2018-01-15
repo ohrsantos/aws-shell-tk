@@ -80,7 +80,7 @@ user_data=(
 #/usr/bin/docker start meteor-container-a-app-1
 "echo sleep 5 >> /etc/rc.d/rc.local"
 "echo \"for (( i = 0 ; i < 10; i++ )); do\" >> /etc/rc.d/rc.local"
-"echo \"    pgrep dockerd && /usr/bin/docker start meteor-container-a-app-1 > /home/ec2-user/docker.log 2>&1; exit 0\" >> /etc/rc.d/rc.local"
+"echo \"    pgrep dockerd && /usr/bin/docker start ${CONTAINER_APP_NAME}-app-${CONTAINER_TAG} > /home/$INSTANCE_USR/${CONTAINER_APP_NAME}-app-${CONTAINER_TAG}.docker.log 2>&1; chmod 777 /home/$INSTANCE_USR/${CONTAINER_APP_NAME}-app-${CONTAINER_TAG}.docker.log; exit 0\" >> /etc/rc.d/rc.local"
 "echo \"    echo sleeping 3 seconds...\" >> /etc/rc.d/rc.local"
 "echo \"    sleep 3\" >> /etc/rc.d/rc.local"
 "echo \"done\" >> /etc/rc.d/rc.local"
@@ -89,7 +89,6 @@ user_data=(
 "su $INSTANCE_USR -c \"docker run -d -p ${CONTAINER_PORT}:3000 $CONTAINER_MNT_VOLUME --name ${CONTAINER_APP_NAME}-app-${CONTAINER_TAG} ${DOCKER_PROFILE}/${CONTAINER_APP_NAME}-app:${CONTAINER_TAG}\""
 
 )
-
 
 ################################################################################
 # user-data file section:
