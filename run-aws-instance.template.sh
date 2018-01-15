@@ -7,10 +7,10 @@ SCRIPT_NAME="run-aws-instance.template"
 #instance launch. Note that it contains variables and container run command
 #if container will not be used, dissmis those parametrization accordantly
 ################################################################################
-VERSION="0.01a"
+VERSION="0.02a"
 AUTHOR="Orlando Hehl Rebelo dos Santos"
 DATE_INI="14-01-2018"
-DATE_END="14-01-2018"
+DATE_END="15-01-2018"
 ################################################################################
 #Changes:
 #
@@ -18,14 +18,15 @@ DATE_END="14-01-2018"
 
 
 ################################################################################
-#sonfiguration section:
+#Configuration section:
 #
 PROFILE_USR="a1"
 REGION="sa-east-1"
 
+INSTANCE_DRY_RUN="--dry-run" #Comment this hole line to enable processing 
 INSTANCE_KEY_PAIR="ohrs-aws-sp-br"
 INSTANCE_SECURITY_GRP="ohrs-default"
-INSTANCE_NAME="container-b"
+INSTANCE_NAME="meteor-container-a"
 INSTANCE_USR="ec2-user"
 INSTANCE_AMI_ID="ami-3d4d0f51"
 INSTANCE_TYPE="t2.micro"
@@ -33,10 +34,10 @@ INSTANCE_COUNT="1"
 INSTANCE_DATA_FILE="user-data.txt"
 
 DOCKER_PROFILE="ohrsan"
-CONTAINER_APP_NAME="meteor-container-b"
+CONTAINER_APP_NAME="meteor-container-a"
 CONTAINER_MNT_VOLUME="/var/meteor/app"
 CONTAINER_TAG="1"
-CONTAINER_PORT="3332"
+CONTAINER_PORT="3331:3000"
 
 ################################################################################
 
@@ -86,9 +87,10 @@ user_data=(
 "echo \"done\" >> /etc/rc.d/rc.local"
 
 # Docker run command ..."
-"su $INSTANCE_USR -c \"docker run -d -p ${CONTAINER_PORT}:3000 $CONTAINER_MNT_VOLUME --name ${CONTAINER_APP_NAME}-app-${CONTAINER_TAG} ${DOCKER_PROFILE}/${CONTAINER_APP_NAME}-app:${CONTAINER_TAG}\""
+"su $INSTANCE_USR -c \"docker run -d -p ${CONTAINER_PORT} $CONTAINER_MNT_VOLUME --name ${CONTAINER_APP_NAME}-app-${CONTAINER_TAG} ${DOCKER_PROFILE}/${CONTAINER_APP_NAME}-app:${CONTAINER_TAG}\""
 
 )
+
 
 ################################################################################
 # user-data file section:
@@ -98,10 +100,8 @@ for index in "${!user_data[@]}"; do
     echo "${user_data[$index]}" >> $INSTANCE_DATA_FILE
     echo "${user_data[$index]}" 
 done
-
-    
     echo "Initializing instance..."
-    new_image_id=$($AWS --output json ec2 run-instances --image-id  $INSTANCE_AMI_ID --count $INSTANCE_COUNT --instance-type $INSTANCE_TYPE --key-name $INSTANCE_KEY_PAIR --security-groups $INSTANCE_SECURITY_GRP --user-data file://$(pwd)/$INSTANCE_DATA_FILE --tag-specifications "[ { \"ResourceType\": \"instance\", \"Tags\": [ { \"Key\": \"Name\", \"Value\": \"${INSTANCE_NAME}\" } ] } ] " | grep InstanceId  | tr -d ' ",' | awk -F: '{print $2}')
+    new_image_id=$($AWS --output json ec2 run-instances $INSTANCE_DRY_RUN --image-id  $INSTANCE_AMI_ID --count $INSTANCE_COUNT --instance-type $INSTANCE_TYPE --key-name $INSTANCE_KEY_PAIR --security-groups $INSTANCE_SECURITY_GRP --user-data file://$(pwd)/$INSTANCE_DATA_FILE --tag-specifications "[ { \"ResourceType\": \"instance\", \"Tags\": [ { \"Key\": \"Name\", \"Value\": \"${INSTANCE_NAME}\" } ] } ] " | grep InstanceId  | tr -d ' ",' | awk -F: '{print $2}')
     
     echo "Instance created, summary:"
     $AWS ec2 describe-instances --filters "Name=instance-id, Values=$new_image_id"
