@@ -7,7 +7,7 @@ SCRIPT_NAME="shell-tk-aws"
 VERSION="0.59a"
 AUTHOR="Orlando Hehl Rebelo dos Santos"
 DATE_INI="10-01-2018"
-DATE_END="13-01-2018"
+DATE_END="15-01-2018"
 ################################################################################
 #Changes:
 #
@@ -22,6 +22,7 @@ DATE_END="13-01-2018"
 #13-01-2018 - Changed script name
 #13-01-2018 - added -n flag
 #15-01-2018 - added $AWS_SHELL_DIR
+#15-01-2018 - Include \":\"" in usage()
 ################################################################################
 
 AWS_SHELL_DIR="/Users/ohrs/stuff/aws/aws-shell-tk"
@@ -51,7 +52,7 @@ usage(){
 	echo "  -a   Action to apply to EC2 instances: ssh|browser|run|start|stop|terminate"
 	echo "  -P   TCP port number for the browser and container app published TCP port map"
 	echo "  -N   Container application name"
-	echo "  -t   Container application tag"
+	echo "  -t   Container application tag preceded by \":\""
 	echo "  -V   Container application volume"
 	echo "  -U   Set Docker user profile name"
 	echo "  -T   Name of the bootstrap file"

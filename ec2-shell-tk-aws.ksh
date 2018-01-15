@@ -32,7 +32,7 @@ function run_instance {
     cp -f $BOOTSTRAP_FILE user-data.txt
     
     echo "Appending docker run command to the user-data.txt file ..."
-    echo "su ec2-user -c \"docker run -d -p ${PORT}:3000 $CONTAINER_VOLUME --name ${CONTAINER_APP_NAME}-app-${CONTAINER_TAG} ${DOCKER_PROFILE}/${CONTAINER_APP_NAME}-app:${CONTAINER_TAG}\"" >> user-data.txt
+    echo "su ec2-user -c \"docker run -d -p ${PORT}:3000 $CONTAINER_VOLUME --name ${CONTAINER_APP_NAME}-app-${CONTAINER_TAG} ${DOCKER_PROFILE}/${CONTAINER_APP_NAME}-app${CONTAINER_TAG}\"" >> user-data.txt
     echo "Initializing instance..."
     new_image_id=$($AWS $JSON_FMT ec2 run-instances --image-id  $AMI_ID --count 1 --instance-type t2.micro --key-name $KEY_PAIR --security-groups ohrs-default --user-data file://$(pwd)/user-data.txt --tag-specifications "[ { \"ResourceType\": \"instance\", \"Tags\": [ { \"Key\": \"Name\", \"Value\": \"${INSTANCE_NAME}\" } ] } ] " | grep InstanceId  | tr -d ' ",' | awk -F: '{print $2}')
     
