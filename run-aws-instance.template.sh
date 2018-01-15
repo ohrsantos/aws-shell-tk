@@ -35,9 +35,12 @@ INSTANCE_DATA_FILE="user-data.txt"
 
 DOCKER_PROFILE="ohrsan"
 CONTAINER_APP_NAME="meteor-container-a"
-CONTAINER_MNT_VOLUME="/var/meteor/app"
 CONTAINER_TAG="1"
-CONTAINER_PORT="3331:3000"
+#These options bellow due to their many variations,
+#requires that you provide the necessary flags.
+CONTAINER_MNT_VOLUME="-v /var/meteor/app"
+CONTAINER_PORT="-p 3331:3000"
+CONTAINER_OTHERS="-u root"
 
 ################################################################################
 
@@ -48,9 +51,6 @@ AWS="aws --profile $PROFILE_USR --region $REGION"
 
 INSTANCES_TMP_FILE=".aws-shell.tmp"
 
-if [[ -n $CONTAINER_MNT_VOLUME ]]; then
-   CONTAINER_MNT_VOLUME=" -v $CONTAINER_MNT_VOLUME"
-fi
 ################################################################################
 # Insert/Delete or change the lines as desired of the 'user_data" array bellow:
 
@@ -87,7 +87,7 @@ user_data=(
 "echo \"done\" >> /etc/rc.d/rc.local"
 
 # Docker run command ..."
-"su $INSTANCE_USR -c \"docker run -d -p ${CONTAINER_PORT} $CONTAINER_MNT_VOLUME --name ${CONTAINER_APP_NAME}-app-${CONTAINER_TAG} ${DOCKER_PROFILE}/${CONTAINER_APP_NAME}-app:${CONTAINER_TAG}\""
+"su $INSTANCE_USR -c \"docker run -d ${CONTAINER_PORT} $CONTAINER_MNT_VOLUME --name ${CONTAINER_APP_NAME}-app-${CONTAINER_TAG} ${CONTAINER_OTHERS} ${DOCKER_PROFILE}/${CONTAINER_APP_NAME}-app:${CONTAINER_TAG}\""
 
 )
 
