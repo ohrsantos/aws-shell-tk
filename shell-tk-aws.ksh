@@ -4,7 +4,7 @@
 ################################################################################
 SCRIPT_NAME="shell-tk-aws"
 ################################################################################
-VERSION="0.58a"
+VERSION="0.59a"
 AUTHOR="Orlando Hehl Rebelo dos Santos"
 DATE_INI="10-01-2018"
 DATE_END="13-01-2018"
@@ -21,9 +21,10 @@ DATE_END="13-01-2018"
 #13-01-2018 - Moved load and describe functions to aws-ec2-run-instance.sh module
 #13-01-2018 - Changed script name
 #13-01-2018 - added -n flag
+#15-01-2018 - added $AWS_SHELL_DIR
 ################################################################################
 
-
+AWS_SHELL_DIR="/Users/ohrs/stuff/aws/aws-shell-tk"
 
 PROFILE_USR=""
 REGION=""
@@ -138,7 +139,7 @@ PEM_FILE=~/stuff/aws/${KEY_PAIR}.pem
 ################################################################################
 # Imports
 ################################################################################
-. ./ec2-shell-tk-aws.ksh
+. $AWS_SHELL_DIR/ec2-shell-tk-aws.ksh
 
 
 load_instances_data
