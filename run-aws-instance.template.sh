@@ -72,6 +72,9 @@ user_data=(
 #Start the Docker service."
 "service docker start"
 
+#Automatic docker service startup
+"chkconfig docker on"
+
 # Docker run command ..."
 "su $INSTANCE_USR -c \"docker run -d -p ${CONTAINER_PORT}:3000 $CONTAINER_MNT_VOLUME --name ${CONTAINER_APP_NAME}-app-${CONTAINER_TAG} ${DOCKER_PROFILE}/${CONTAINER_APP_NAME}-app:${CONTAINER_TAG}\""
 
