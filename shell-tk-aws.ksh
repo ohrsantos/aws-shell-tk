@@ -4,10 +4,10 @@
 ################################################################################
 SCRIPT_NAME="shell-tk-aws"
 ################################################################################
-VERSION="0.59a"
+VERSION="0.60a"
 AUTHOR="Orlando Hehl Rebelo dos Santos"
 DATE_INI="10-01-2018"
-DATE_END="15-01-2018"
+DATE_END="02-02-2018"
 ################################################################################
 #Changes:
 #
@@ -23,6 +23,8 @@ DATE_END="15-01-2018"
 #13-01-2018 - added -n flag
 #15-01-2018 - added $AWS_SHELL_DIR
 #15-01-2018 - Include \":\"" in usage()
+#21-01-2018 - scp action implemented
+#02-02-2018 - clean up funcion implemented via trap
 ################################################################################
 
 AWS_SHELL_DIR="/Users/ohrs/stuff/aws/aws-shell-tk"
@@ -49,7 +51,7 @@ usage(){
 	echo "  -r   Region"
 	echo "  -s   Service: ec2|s3|rds"
 	echo "  -l   List instances"
-	echo "  -a   Action to apply to EC2 instances: ssh|browser|run|start|stop|terminate"
+	echo "  -a   Action to apply to EC2 instances: ssh|scp|browser|run|start|stop|terminate"
 	echo "  -P   TCP port number for the browser and container app published TCP port map"
 	echo "  -N   Container application name"
 	echo "  -t   Container application tag preceded by \":\""
@@ -127,6 +129,26 @@ done
 shift $(($OPTIND - 1))
 
 printf "$SCRIPT_NAME $VERSION - $DATE_END  \n\n"
+
+function cleanup {
+    if [[ -e $INSTANCES_TMP_FILE ]]; then
+        rm -f $INSTANCES_TMP_FILE
+        echo; echo "Action aborted, exiting..."
+    fi
+    exit 0
+}
+
+trap cleanup INT TERM
+if [[ $EC2_ACTION == "SCP_INSTANCE" ]]; then
+    if [[ -n $1 ]] && [[ -n $2 ]]; then
+        LOCAL_FILE="$1"
+        REMOTE_FILE="$2"
+#echo exec
+    else
+       echo "Incorrect argumentos to scp"
+       usage
+    fi
+fi
 
 JSON_FMT="--output json"
 AWS="aws $PROFILE_USR $REGION"
