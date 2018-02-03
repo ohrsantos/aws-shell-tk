@@ -7,7 +7,6 @@ function load_instances_data {
        state[$i]=$(jq ".Reservations | .[$i] | .Instances | .[0] |  .State.Name" < $INSTANCES_TMP_FILE | tr -d ' "')
 
        launch_time[$i]=$(jq ".Reservations | .[$i] | .Instances | .[0] |  .LaunchTime" < $INSTANCES_TMP_FILE | tr -d ' "')
-       #if [[ -z ${launch_time[$i]} ]]; then launch_time[$i]="        ---        "; fi
     
        public_dns_name[$i]=$(jq ".Reservations | .[$i] | .Instances | .[0] |  .PublicDnsName" < $INSTANCES_TMP_FILE | tr -d ' "')
        if [[ -z ${public_dns_name[$i]} ]]; then public_dns_name[$i]="---"; fi
@@ -20,11 +19,11 @@ function load_instances_data {
 }
     
 function describe_instances {
-       printf "%-4s%-20s%-21s%-16s%-26s%-51s\n"  "No" "INSTANCE_NAME" "INSTANCE_ID" "STATE" "LAUNCH_TIME" "PUBLIC_DNS"
-       for (( j=0; $j < $i; j++ )); do
-           printf "%02u  %-20s%-21s%-16s%-26s%-51s\n" $j ${instance_name[$j]} ${instance_id[$j]} ${state[$j]} ${launch_time[$j]} ${public_dns_name[$j]}
-        done
-    
+    printf "%-4s%-20s%-21s%-16s%-26s%-51s\n"  "No" "INSTANCE_NAME" "INSTANCE_ID" "STATE" "LAUNCH_TIME" "PUBLIC_DNS"
+    for (( j=0; $j < $i; j++ )); do
+        printf "%02u  %-20s%-21s%-16s%-26s%-51s\n" $j ${instance_name[$j]} ${instance_id[$j]}\
+                                                      ${state[$j]} ${launch_time[$j]} ${public_dns_name[$j]}
+     done
 }
 
 function run_instance {
