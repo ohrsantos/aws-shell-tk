@@ -20,9 +20,9 @@ function load_instances_data {
 }
     
 function describe_instances {
-       printf "%-4s%-21s%-16s%-26s%-51s%-12s\n"  "No" "INSTANCE_ID" "STATE" "LAUNCH_TIME" "PUBLIC_DNS" "INSTANCE_NAME"
+       printf "%-4s%-20s%-21s%-16s%-26s%-51s\n"  "No" "INSTANCE_NAME" "INSTANCE_ID" "STATE" "LAUNCH_TIME" "PUBLIC_DNS"
        for (( j=0; $j < $i; j++ )); do
-           printf "%02u  %-21s%-16s%-26s%-51s%-12s\n" $j ${instance_id[$j]} ${state[$j]} ${launch_time[$j]} ${public_dns_name[$j]} ${instance_name[$j]}
+           printf "%02u  %-20s%-21s%-16s%-26s%-51s\n" $j ${instance_name[$j]} ${instance_id[$j]} ${state[$j]} ${launch_time[$j]} ${public_dns_name[$j]}
         done
     
 }
@@ -45,6 +45,9 @@ function run_ec2_action {
    case $EC2_ACTION in
        SSH_INSTANCE )
            ssh -i $PEM_FILE $INSTANCE_USR@${public_dns_name[$target]}
+           ;;  
+       SCP_INSTANCE )
+           scp -i $PEM_FILE $LOCAL_FILE $INSTANCE_USR@${public_dns_name[$target]}:$REMOTE_FILE
            ;;  
        BROWSER_INSTANCE )
            eval $BROWSER http://${public_dns_name[$target]}:$PORT
