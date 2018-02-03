@@ -46,7 +46,10 @@ AMI_ID="ami-3d4d0f51"
 
 usage(){
         echo $SCRIPT_NAME
-	echo "Usage: $SCRIPT_NAME.ksh [-u profile] [-r region] [-s service] [-l] [-a action] [-P port] [-N container-name] [-t container-tag] [-V container-volume] [-U docker-profile] [-T bootstrap-file] [-I ami-instance-id"] [-k key-pair] [-n instance-name]"
+	echo "Usage: $SCRIPT_NAME.ksh [-u profile] [-r region] [-s service] [-l] [-a action] \
+                                      [-P port] [-N container-name] [-t container-tag]\
+                                      [-V container-volume] [-U docker-profile] [-T bootstrap-file]\
+                                      [-I ami-instance-id"] [-k key-pair] [-n instance-name]"
 	echo "  -u   Set AWS user profile name"
 	echo "  -r   Region"
 	echo "  -s   Service: ec2|s3|rds"
