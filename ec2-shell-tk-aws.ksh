@@ -39,6 +39,9 @@ function run_instance {
     $AWS ec2 describe-instances --filters "Name=instance-id, Values=$new_image_id"
 }
 
+NO_COLOUR="\033[0m"
+BOLD_RED="\033[1;49;91m"
+
 function run_ec2_action {
 
    case $EC2_ACTION in
@@ -61,7 +64,19 @@ function run_ec2_action {
            $AWS ec2 stop-instances --instance-ids  ${instance_id[$target]}
            ;;  
        TERMINATE_INSTANCE )
-           $AWS ec2 terminate-instances --instance-ids  ${instance_id[$target]}
+           echo
+           printf "********************** (${BOLD_RED}ATENTION${NO_COLOUR}) **************************\n\n"
+           printf "      You are about to ${BOLD_RED}\"TERMINATE\"${NO_COLOUR} this instance\n\n"
+           printf "           ${BOLD_RED}THIS ACTION CAN NOT BE UNDONE!!\n\n${NO_COLOUR}"
+           printf "***********************************************************\n\n${NO_COLOUR}"
+           echo -n 'Type the exactly instance name to proceed: '
+           read instance_name_to_delete
+           if [[ $instance_name_to_delete == ${instance_name[$target]} ]]; then
+               $AWS ec2 terminate-instances --instance-ids  ${instance_id[$target]}
+           else
+               echo
+               echo 'Instance name does not match, action canceled!'
+           fi
            ;;  
         *   )   
            echo "Default action."
