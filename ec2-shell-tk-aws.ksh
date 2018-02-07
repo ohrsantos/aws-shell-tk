@@ -46,7 +46,7 @@ function run_ec2_action {
 
    case $EC2_ACTION in
        SSH_INSTANCE )
-           ssh -i $PEM_FILE $INSTANCE_USR@${public_dns_name[$target]}
+           ssh -i $PEM_FILE $INSTANCE_USR@${public_dns_name[$target]} <<< "yes"
            ;;  
        SCP_INSTANCE )
            scp -i $PEM_FILE $LOCAL_FILE $INSTANCE_USR@${public_dns_name[$target]}:$REMOTE_FILE
