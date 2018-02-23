@@ -48,6 +48,9 @@ function run_ec2_action {
        SSH_INSTANCE )
            ssh -o "StrictHostKeyChecking no" -i $PEM_FILE $INSTANCE_USR@${public_dns_name[$target]}
            ;;  
+       SRCMD_INSTANCE )
+           ssh -o "StrictHostKeyChecking no" -i $PEM_FILE $INSTANCE_USR@${public_dns_name[$target]} <<< "$SR_CMD"
+           ;;  
        SCP_INSTANCE )
            scp  -o "StrictHostKeyChecking no" -i $PEM_FILE $LOCAL_FILE $INSTANCE_USR@${public_dns_name[$target]}:$REMOTE_FILE
            ;;  
