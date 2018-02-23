@@ -120,7 +120,7 @@ do
                 INSTANCE_NAME="${OPTARG}"
                 ;;
             R)
-                SR_CMD=${OPTARG}
+                SR_CMD="${OPTARG}"
                 ;;
             v)
                 echo "${VERSION}"
