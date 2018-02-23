@@ -153,7 +153,7 @@ if [[ $EC2_ACTION == "SCP_INSTANCE" ]]; then
     fi
 fi
 
-if [[ $EC2_ACTION == "SR_CMD_INSTANCE" ]]; then
+if [[ $EC2_ACTION == "SR-CMD_INSTANCE" ]]; then
     if [[ -n $1 ]]; then
         SR_CMD="$1"
     else
