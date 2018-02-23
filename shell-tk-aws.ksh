@@ -49,7 +49,7 @@ usage(){
 	echo "Usage: $SCRIPT_NAME.ksh [-u profile] [-r region] [-s service] [-l] [-a action] \
                                       [-P port] [-N container-name] [-t container-tag]\
                                       [-V container-volume] [-U docker-profile] [-T bootstrap-file]\
-                                      [-I ami-instance-id"] [-k key-pair] [-n instance-name]"
+                                      [-I ami-instance-id"] [-k key-pair] [-n instance-name] [-R security-remote-command]"
 	echo "  -u   Set AWS user profile name"
 	echo "  -r   Region"
 	echo "  -s   Service: ec2|s3|rds"
@@ -63,11 +63,12 @@ usage(){
 	echo "  -T   Name of the bootstrap file"
 	echo "  -I   AMI instance id for instance instantiation
 	echo "  -K   specify key pair"
+	echo "  -R   security remote command"
 	echo "  -n   specify instance name"
 	echo "  -h   Print help and exit"
 }
 
-while getopts "u:r:s:la:P:N:t:V:T:I:K:n:vh" arg
+while getopts "u:r:s:la:P:N:t:V:T:I:K:R:n:vh" arg
 do
         case $arg in
             u)
@@ -117,6 +118,9 @@ do
                 ;;
             n)
                 INSTANCE_NAME="${OPTARG}"
+                ;;
+            R)
+                SR_CMD=${OPTARG}
                 ;;
             v)
                 echo "${VERSION}"
