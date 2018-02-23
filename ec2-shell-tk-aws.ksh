@@ -49,7 +49,7 @@ function run_ec2_action {
            ssh -o "StrictHostKeyChecking no" -i $PEM_FILE $INSTANCE_USR@${public_dns_name[$target]}
            ;;  
        SCP_INSTANCE )
-           scp -i $PEM_FILE $LOCAL_FILE $INSTANCE_USR@${public_dns_name[$target]}:$REMOTE_FILE
+           scp  -o "StrictHostKeyChecking no" -i $PEM_FILE $LOCAL_FILE $INSTANCE_USR@${public_dns_name[$target]}:$REMOTE_FILE
            ;;  
        BROWSER_INSTANCE )
            eval $BROWSER http://${public_dns_name[$target]}:$PORT
