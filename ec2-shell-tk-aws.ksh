@@ -19,9 +19,9 @@ function load_instances_data {
 }
     
 function describe_instances {
-    printf "%-4s%-20s%-21s%-16s%-26s%-51s\n"  "No" "INSTANCE_NAME" "INSTANCE_ID" "STATE" "LAUNCH_TIME" "PUBLIC_DNS"
+    printf "%-4s%-25s%-21s%-16s%-26s%-51s\n"  "No" "INSTANCE_NAME" "INSTANCE_ID" "STATE" "LAUNCH_TIME" "PUBLIC_DNS"
     for (( j=0; $j < $i; j++ )); do
-        printf "%02u  %-20s%-21s%-16s%-26s%-51s\n" $j ${instance_name[$j]} ${instance_id[$j]}\
+        printf "%02u  %-25s%-21s%-16s%-26s%-51s\n" $j ${instance_name[$j]} ${instance_id[$j]}\
                                                       ${state[$j]} ${launch_time[$j]} ${public_dns_name[$j]}
      done
 }
