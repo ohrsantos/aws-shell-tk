@@ -27,7 +27,7 @@ function load_instances_data {
        if [[ -z ${instance_name[$i]} ]]; then instance_name[$i]="---"; fi
 
        #((i++))
-       i=i+1
+       i=$i+1
     done
 }
     
@@ -37,7 +37,7 @@ function describe_instances {
     j=0; while [[ $j < $i ]]; do
         printf "%02u  %-25s%-21s%-16s%-26s%-51s\n" $j ${instance_name[$j]} ${instance_id[$j]}\
                                                       ${state[$j]} ${launch_time[$j]} ${public_dns_name[$j]}
-             j=j+1
+             j=$j+1
      done
 }
 
