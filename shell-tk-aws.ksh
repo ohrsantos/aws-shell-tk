@@ -28,7 +28,7 @@ KEY_PAIR="ohrs-aws-sp-br"
 AMI_ID="ami-3d4d0f51"
 
 usage(){
-       # echo $SCRIPT_NAME
+        echo $SCRIPT_NAME
 #	echo "Usage: $SCRIPT_NAME.ksh [-u profile] [-r region] [-s service] [-l] [-a action] \
  #                                     [-P port] [-N container-name] [-t container-tag]\
   #                                    [-V container-volume] [-U docker-profile] [-T bootstrap-file]\
