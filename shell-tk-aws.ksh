@@ -14,7 +14,7 @@ AWS_SHELL_DIR="$OHRS_STUFF_PATH/aws-shell-tk"
 
 PROFILE_USR=""
 REGION=""
-OUTPUT_FRMT="table"
+OUTPUT_FRMT=""
 SERVICE="ec2"
 DESCRIBE=FALSE
 EC2_ACTION=""
@@ -108,7 +108,7 @@ do
                 INSTANCE_USR="${OPTARG}"
                 ;;
 	    o)
-                OUTPUT_FRMT="${OPTARG}"
+                OUTPUT_FRMT="--output ${OPTARG}"
                 ;;
             v)
                 echo "${VERSION}"
