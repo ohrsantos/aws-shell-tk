@@ -44,7 +44,7 @@ usage(){
 	echo "  -V   Container application volume"
 	echo "  -U   Set Docker user profile name"
 	echo "  -T   Name of the bootstrap file"
-	echo "  -I   AMI instance id for instance instantiation"
+	echo "  -I   AMI instance id for instance instantiation
 	echo "  -L   Instance user"
 	echo "  -K   specify key pair"
 	echo "  -n   specify instance name"
