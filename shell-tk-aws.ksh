@@ -154,8 +154,6 @@ BROWSER="open  -n -a \"Google Chrome.app\"  --args --new-window"
 
 INSTANCES_TMP_FILE=.aws-shell.tmp
 PEM_FILE=~/.aws/${KEY_PAIR}.pem
-echo $PEM_FILE
-
 
 
 #######################################################################################################################
