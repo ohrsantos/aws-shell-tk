@@ -26,15 +26,18 @@ function load_instances_data {
        instance_name[$i]=$(jq ".Reservations | .[$i] | .Instances | .[0] |  .Tags | .[0] | .Value" < $INSTANCES_TMP_FILE | tr -d ' "')
        if [[ -z ${instance_name[$i]} ]]; then instance_name[$i]="---"; fi
 
-       ((i++))
+       #((i++))
+       i=i+1
     done
 }
     
 function describe_instances {
     printf "%-4s%-25s%-21s%-16s%-26s%-51s\n"  "No" "INSTANCE_NAME" "INSTANCE_ID" "STATE" "LAUNCH_TIME" "PUBLIC_DNS"
-    for (( j=0; $j < $i; j++ )); do
+    #for (( j=0; $j < $i; j++ )); do
+    j=0; while [[ $j < $i ]]; do
         printf "%02u  %-25s%-21s%-16s%-26s%-51s\n" $j ${instance_name[$j]} ${instance_id[$j]}\
                                                       ${state[$j]} ${launch_time[$j]} ${public_dns_name[$j]}
+             j=j+1
      done
 }
 
