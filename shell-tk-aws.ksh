@@ -7,7 +7,7 @@ SCRIPT_NAME="shell-tk-aws"
 VERSION="0.61a"
 AUTHOR="Orlando Hehl Rebelo dos Santos"
 DATE_INI="10-01-2018"
-DATE_END="23-02-2018"
+DATE_END="20-09-2018"
 #######################################################################################################################
 
 AWS_SHELL_DIR="$OHRS_STUFF_PATH/aws-shell-tk"
@@ -44,13 +44,14 @@ usage(){
 	echo "  -V   Container application volume"
 	echo "  -U   Set Docker user profile name"
 	echo "  -T   Name of the bootstrap file"
-	echo "  -I   AMI instance id for instance instantiation
+	echo "  -I   AMI instance id for instance instantiation"
+	echo "  -L   Instance user"
 	echo "  -K   specify key pair"
 	echo "  -n   specify instance name"
 	echo "  -h   Print help and exit"
 }
 
-while getopts "u:r:s:la:P:N:t:V:T:I:K:n:vh" arg
+while getopts "u:r:s:la:P:N:t:V:T:I:K:n:L:vh" arg
 do
         case $arg in
             u)
@@ -100,6 +101,10 @@ do
                 ;;
             n)
                 INSTANCE_NAME="${OPTARG}"
+                ;;
+		INSTANCE_USR
+	    L)
+                INSTANCE_USR="${OPTARG}"
                 ;;
             v)
                 echo "${VERSION}"
