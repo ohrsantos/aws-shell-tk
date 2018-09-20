@@ -154,7 +154,7 @@ if [[ $EC2_ACTION == "SR-CMD_INSTANCE" ]]; then
 fi
 
 JSON_FMT="--output json"
-AWS="aws $PROFILE_USR $REGION"
+AWS="aws $PROFILE_USR $REGION $OUTPUT_FRMT"
 BROWSER="open  -n -a \"Google Chrome.app\"  --args --new-window"
 
 INSTANCES_TMP_FILE=.aws-shell.tmp
