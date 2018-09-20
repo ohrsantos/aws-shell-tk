@@ -10,7 +10,7 @@ DATE_INI="10-01-2018"
 DATE_END="23-02-2018"
 #######################################################################################################################
 
-AWS_SHELL_DIR="/Users/ohrs/stuff/aws/aws-shell-tk"
+AWS_SHELL_DIR="$OHRS_STUFF_PATH/aws-shell-tk"
 
 PROFILE_USR=""
 REGION=""
