@@ -61,7 +61,7 @@ function run_ec2_action {
 
    case $EC2_ACTION in
        SSH_INSTANCE )
-           ssh -o "StrictHostKeyChecking no" -i $PEM_FILE $INSTANCE_USR@${public_dns_name[$target]}
+           ssh -Y -o "StrictHostKeyChecking no" -i $PEM_FILE $INSTANCE_USR@${public_dns_name[$target]}
            ;;  
        SR-CMD_INSTANCE )
            ssh -o "StrictHostKeyChecking no" -i $PEM_FILE $INSTANCE_USR@${public_dns_name[$target]} <<< "$SR_CMD"
