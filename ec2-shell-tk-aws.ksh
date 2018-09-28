@@ -27,7 +27,7 @@ function load_instances_data {
        if [[ -z ${instance_name[$i]} ]]; then instance_name[$i]="---"; fi
 
        #((i++))
-       i=$i+1
+       i=$((i+1))
     done
 }
     
