@@ -158,7 +158,7 @@ AWS="aws $PROFILE_USR $REGION $OUTPUT_FRMT"
 BROWSER="open  -n -a \"Google Chrome.app\"  --args --new-window"
 
 INSTANCES_TMP_FILE=.aws-shell.tmp
-PEM_FILE=~/.aws/${KEY_PAIR}.pem
+PEM_FILE=${KEY_PAIR}
 
 
 #######################################################################################################################
