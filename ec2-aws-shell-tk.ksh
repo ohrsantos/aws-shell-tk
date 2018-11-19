@@ -7,7 +7,7 @@ SCRIPT_NAME="ec2-aws-shell-tk"
 VERSION="0.40a"
 AUTHOR="Orlando Hehl Rebelo dos Santos"
 DATE_INI="10-01-2018"
-DATE_END="23-02-2018"
+DATE_END="14-11-2018"
 #######################################################################################################################
 
 function load_instances_data {
@@ -34,10 +34,10 @@ function load_instances_data {
 function describe_instances {
     printf "%-4s%-25s%-21s%-16s%-26s%-51s\n"  "No" "INSTANCE_NAME" "INSTANCE_ID" "STATE" "LAUNCH_TIME" "PUBLIC_DNS"
     #for (( j=0; $j < $i; j++ )); do
-    j=0; while [[ $j < $i ]]; do
+    j=0; while [[ $j -lt $i ]]; do
         printf "%02u  %-25s%-21s%-16s%-26s%-51s\n" $j ${instance_name[$j]} ${instance_id[$j]}\
                                                       ${state[$j]} ${launch_time[$j]} ${public_dns_name[$j]}
-             j=$j+1
+             j=$((j+1))
      done
 }
 
@@ -61,6 +61,7 @@ function run_ec2_action {
 
    case $EC2_ACTION in
        SSH_INSTANCE )
+           echo "ssh -Y -o \"StrictHostKeyChecking no\" -i $PEM_FILE $INSTANCE_USR@${public_dns_name[$target]}"
            ssh -Y -o "StrictHostKeyChecking no" -i $PEM_FILE $INSTANCE_USR@${public_dns_name[$target]}
            ;;  
        SR-CMD_INSTANCE )
