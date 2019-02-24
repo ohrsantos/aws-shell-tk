@@ -7,38 +7,64 @@ SCRIPT_NAME="ec2-aws-shell-tk"
 VERSION="0.40a"
 AUTHOR="Orlando Hehl Rebelo dos Santos"
 DATE_INI="10-01-2018"
-DATE_END="14-11-2018"
+DATE_END="24-11-2019"
 #######################################################################################################################
 
+#"$(echo $instances | jq '.Reservations[].Instances[].InstanceId')|$(echo $instances | jq '.Reservations[].Instances[].InstanceType')"
 function load_instances_data {
     $AWS $JSON_FMT ec2 describe-instances > $INSTANCES_TMP_FILE
-    i=0 
-    while [[ $(jq ".Reservations | .[$i] | .Instances |. [0] |  .State.Name" < $INSTANCES_TMP_FILE ) != "null" ]]; do
-    
-       instance_id[$i]=$(jq ".Reservations | .[$i] | .Instances |. [0] |  .InstanceId" < $INSTANCES_TMP_FILE | tr -d ' "')
-       state[$i]=$(jq ".Reservations | .[$i] | .Instances | .[0] |  .State.Name" < $INSTANCES_TMP_FILE | tr -d ' "')
 
-       launch_time[$i]=$(jq ".Reservations | .[$i] | .Instances | .[0] |  .LaunchTime" < $INSTANCES_TMP_FILE | tr -d ' "')
+    i=0; j=0; z=0 
+    while [[ $(jq ".Reservations[$i].Instances[$j].State.Name" < $INSTANCES_TMP_FILE ) != "null" ]]; do
+    while [[ $(jq ".Reservations[$i].Instances[$j].State.Name" < $INSTANCES_TMP_FILE ) != "null" ]]; do
     
-       public_dns_name[$i]=$(jq ".Reservations | .[$i] | .Instances | .[0] |  .PublicDnsName" < $INSTANCES_TMP_FILE | tr -d ' "')
-       if [[ -z ${public_dns_name[$i]} ]]; then public_dns_name[$i]="---"; fi
-    
-       instance_name[$i]=$(jq ".Reservations | .[$i] | .Instances | .[0] |  .Tags | .[0] | .Value" < $INSTANCES_TMP_FILE | tr -d ' "')
-       if [[ -z ${instance_name[$i]} ]]; then instance_name[$i]="---"; fi
+       instance_id[$z]=$(jq ".Reservations[$i].Instances[$j].InstanceId" < $INSTANCES_TMP_FILE | tr -d ' "')
 
-       #((i++))
+       instance_state[$z]=$(jq ".Reservations[$i].Instances[$j].State.Name" < $INSTANCES_TMP_FILE | tr -d ' "')
+
+       launch_time[$z]=$(jq ".Reservations[$i].Instances[$j].LaunchTime" < $INSTANCES_TMP_FILE | tr -d ' "')
+    
+       instance_public_ip[$z]=$(jq ".Reservations[$i].Instances[$j].PublicIpAddress" < $INSTANCES_TMP_FILE | tr -d ' "')
+       if [[ ${instance_public_ip[$i]} == "null" ]]; then instance_public_ip[$z]="---"; fi
+    
+       instance_private_ip[$z]=$(jq ".Reservations[$i].Instances[$j].PrivateIpAddress" < $INSTANCES_TMP_FILE | tr -d ' "')
+       if [[ ${instance_private_ip[$i]} == "null" ]]; then instance_private_ip[$z]="---"; fi
+    
+       instance_name[$z]=$(jq ".Reservations[$i].Instances[$j].Tags[0].Value" < $INSTANCES_TMP_FILE | tr -d ' "')
+       if [[ -z ${instance_name[$i]} ]]; then instance_name[$z]="---"; fi
+
+
+       instance_type[$z]=$(jq ".Reservations[$i].Instances[$j].InstanceType" < $INSTANCES_TMP_FILE | tr -d ' "')
+
+       j=$((j+1))
+       z=$((z+1))
+    done
+       j=0 
        i=$((i+1))
     done
 }
     
 function describe_instances {
-    printf "%-4s%-25s%-21s%-16s%-26s%-51s\n"  "No" "INSTANCE_NAME" "INSTANCE_ID" "STATE" "LAUNCH_TIME" "PUBLIC_DNS"
+    printf "%-4s%-28s%-21s%-16s%-21s%-17s%-17s%-12s\n"  "No" "INSTANCE_NAME" "INSTANCE_ID" "STATE" "LAUNCH_TIME" "PRIVATE_IP" "PUBLIC_IP " "INSTANCE_TYPE"
     #for (( j=0; $j < $i; j++ )); do
-    j=0; while [[ $j -lt $i ]]; do
-        printf "%02u  %-25s%-21s%-16s%-26s%-51s\n" $j ${instance_name[$j]} ${instance_id[$j]}\
-                                                      ${state[$j]} ${launch_time[$j]} ${public_dns_name[$j]}
-             j=$((j+1))
-     done
+    j=0
+    while [[ $j -lt $z ]]; do
+    
+       typeset -u instance_state_=${instance_state[$j]}
+       typeset -L27 instance_name_=${instance_name[$j]}
+       typeset -L19 launch_time_=${launch_time[$j]}
+       case $instance_state_ in
+           #'STOPPED'                                ) state_color="${GREEN}";;
+           'RUNNING'                                ) state_color="${LGREEN}";;
+           #'TERMINATED'                             ) state_color="${LIGHTGRAY}";;
+           'STOPPING' | 'PENDING' | 'SHUTTING-DOWN' ) state_color="${YELLOW}";;
+           *                                        ) state_color="${RESTORE}";;
+       esac
+
+       printf "${WHITE}%02u${RESTORE}  %-28s%-21s${state_color}%-16s${RESTORE}%-21s%-17s%-17s%-17s\n" $j ${instance_name_} ${instance_id[$j]}\
+                                                                                            ${instance_state_} ${launch_time_} ${instance_private_ip[$j]} ${instance_public_ip[$j]} ${instance_type[$j]}
+       j=$((j+1))
+    done
 }
 
 function run_instance {
@@ -61,17 +87,17 @@ function run_ec2_action {
 
    case $EC2_ACTION in
        SSH_INSTANCE )
-           echo "ssh -Y -o \"StrictHostKeyChecking no\" -i $PEM_FILE $INSTANCE_USR@${public_dns_name[$target]}"
-           ssh -Y -o "StrictHostKeyChecking no" -i $PEM_FILE $INSTANCE_USR@${public_dns_name[$target]}
+           echo "ssh -Y -o \"StrictHostKeyChecking no\" -i $PEM_FILE $INSTANCE_USR@${instance_public_ip[$target]}"
+           ssh -Y -o "StrictHostKeyChecking no" -i $PEM_FILE $INSTANCE_USR@${instance_public_ip[$target]}
            ;;  
        SR-CMD_INSTANCE )
-           ssh -o "StrictHostKeyChecking no" -i $PEM_FILE $INSTANCE_USR@${public_dns_name[$target]} <<< "$SR_CMD"
+           ssh -o "StrictHostKeyChecking no" -i $PEM_FILE $INSTANCE_USR@${instance_public_ip[$target]} <<< "$SR_CMD"
            ;;  
        SCP_INSTANCE )
-           scp  -o "StrictHostKeyChecking no" -i $PEM_FILE $LOCAL_FILE $INSTANCE_USR@${public_dns_name[$target]}:$REMOTE_FILE
+           scp  -o "StrictHostKeyChecking no" -i $PEM_FILE $LOCAL_FILE $INSTANCE_USR@${instance_public_ip[$target]}:$REMOTE_FILE
            ;;  
        BROWSER_INSTANCE )
-           eval $BROWSER http://${public_dns_name[$target]}:$PORT
+           eval $BROWSER http://${instance_public_ip[$target]}:$PORT
            ;;  
        RUN_INSTANCE )
            run_instance
