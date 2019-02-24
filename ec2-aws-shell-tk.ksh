@@ -4,13 +4,12 @@
 #######################################################################################################################
 SCRIPT_NAME="ec2-aws-shell-tk"
 #######################################################################################################################
-VERSION="0.40a"
+VERSION="0.51a"
 AUTHOR="Orlando Hehl Rebelo dos Santos"
 DATE_INI="10-01-2018"
 DATE_END="24-11-2019"
 #######################################################################################################################
 
-#"$(echo $instances | jq '.Reservations[].Instances[].InstanceId')|$(echo $instances | jq '.Reservations[].Instances[].InstanceType')"
 function load_instances_data {
     $AWS $JSON_FMT ec2 describe-instances > $INSTANCES_TMP_FILE
 
