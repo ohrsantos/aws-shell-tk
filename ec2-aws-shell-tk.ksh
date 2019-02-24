@@ -37,6 +37,7 @@ function load_instances_data {
        instance_subnet[$z]=$(jq ".Reservations[$i].Instances[$j].SubnetId" < $INSTANCES_TMP_FILE | tr -d ' "')
        instance_vpc[$z]=$(jq ".Reservations[$i].Instances[$j].VpcId" < $INSTANCES_TMP_FILE | tr -d ' "')
        instance_key_name[$z]=$(jq ".Reservations[$i].Instances[$j].KeyName" < $INSTANCES_TMP_FILE | tr -d ' "')
+       instance_image_id[$z]=$(jq ".Reservations[$i].Instances[$j].ImageId" < $INSTANCES_TMP_FILE | tr -d ' "')
 
        j=$((j+1))
        z=$((z+1))
@@ -47,7 +48,7 @@ function load_instances_data {
 }
     
 function describe_instances {
-    printf "%-4s%-28s%-21s%-15s%-21s%-17s%-17s%-20s%-20s%-20s%-12s\n"  "No" "INSTANCE_NAME" "INSTANCE_ID" "STATE" "LAUNCH_TIME" "PRIVATE_IP" "PUBLIC_IP " "VPC_ID"  "SUB_NET_ID"  "KEY_NAME" "INSTANCE_TYPE"
+    printf "%-4s%-28s%-21s%-15s%-19s%-17s%-17s%-20s%-20s%-20s%-16s%-20s\n"  "No" "INSTANCE_NAME" "INSTANCE_ID" "STATE" "LAUNCH_TIME" "PRIVATE_IP" "PUBLIC_IP " "VPC_ID"  "SUB_NET_ID"  "KEY_NAME" "INSTANCE_TYPE" "IMAGE_ID"
     #for (( j=0; $j < $i; j++ )); do
     j=0
     while [[ $j -lt $z ]]; do
@@ -55,8 +56,11 @@ function describe_instances {
        typeset -u instance_state_=${instance_state[$j]}
        typeset -L27 instance_name_=${instance_name[$j]}
        typeset -L19 instance_launch_time_=${instance_launch_time[$j]}
+       instance_id_=${instance_id[$j]:2:17}
        instance_subnet_=${instance_subnet[$j]:7:17}
        instance_vpc_=${instance_vpc[$j]:4:17}
+       instance_image_id_=${instance_image_id[$j]:4:17}
+
        case $instance_state_ in
            'STOPPED'                                ) state_color="${LIGHTGRAY}";;
            'RUNNING'                                ) state_color="${LGREEN}";;
@@ -65,8 +69,8 @@ function describe_instances {
            *                                        ) state_color="${RESTORE}";;
        esac
 
-       printf "${WHITE}%02u${RESTORE}  %-28s%-21s${state_color}%-15s${RESTORE}%-21s%-17s%-17s%-20s%-20s%-20s%-12s\n" $j ${instance_name_} ${instance_id[$j]}\
-                                                                                                                     ${instance_state_} ${instance_launch_time_} ${instance_private_ip[$j]} ${instance_public_ip[$j]} ${instance_vpc_} ${instance_subnet_} ${instance_key_name[$j]} ${instance_type[$j]}
+       printf "${WHITE}%02u${RESTORE}  %-28s%-19s${state_color}%-15s${RESTORE}%-21s%-17s%-17s%-20s%-20s%-20s%-16s%-20s\n" $j ${instance_name_} ${instance_id_}\
+                                                                                                                     ${instance_state_} ${instance_launch_time_} ${instance_private_ip[$j]} ${instance_public_ip[$j]} ${instance_vpc_} ${instance_subnet_} ${instance_key_name[$j]} ${instance_type[$j]} ${instance_image_id_}
        j=$((j+1))
     done
 }
