@@ -48,14 +48,14 @@ function load_instances_data {
 }
     
 function describe_instances {
-    printf "%-4s%-23s%-21s%-10s%-19s%-17s%-17s%-20s%-20s%-20s%-16s%-20s\n"\
+    printf "%-4s%-23s%-21s%-12s%-19s%-17s%-17s%-20s%-20s%-20s%-16s%-20s\n"\
            "No" "INSTANCE_NAME" "INSTANCE_ID" "STATE" "LAUNCH_TIME" "PRIVATE_IP" "PUBLIC_IP " "VPC_ID"  "SUB_NET_ID"  "KEY_NAME" "INSTANCE_TYPE" "IMAGE_ID"
     #for (( j=0; $j < $i; j++ )); do
     j=0
     while [[ $j -lt $z ]]; do
     
        typeset -u instance_state_=${instance_state[$j]}
-       typeset -L8 instance_state_
+       typeset -L10 instance_state_
        typeset -L22 instance_name_=${instance_name[$j]}
        typeset -L19 instance_launch_time_=${instance_launch_time[$j]}
        instance_id_=${instance_id[$j]:2:17}
@@ -64,14 +64,14 @@ function describe_instances {
        instance_image_id_=${instance_image_id[$j]:4:17}
 
        case $instance_state_ in
-           'STOPPED '                            ) state_color="${LIGHTGRAY}";;
-           'RUNNING '                            ) state_color="${LGREEN}";;
-           'TERMINAT'                            ) state_color="${LIGHTGRAY}";;
-           'STOPPING' | 'PENDING ' | 'SHUTTING'  ) state_color="${YELLOW}";;
+           'STOPPED   '                            ) state_color="${RED}";;
+           'RUNNING   '                            ) state_color="${LGREEN}";;
+           'TERMINATED'                            ) state_color="${LIGHTGRAY}";;
+           'STOPPING  ' | 'PENDING   ' | 'SHUTTING-D'  ) state_color="${YELLOW}";;
            *                                     ) state_color="${RESTORE}";;
        esac
 
-       printf "${WHITE}%02u${RESTORE}  %-23s%-19s${state_color}%-10s${RESTORE}%-21s%-17s%-17s%-20s%-20s%-20s%-16s%-20s\n" \
+       printf "${WHITE}%02u${RESTORE}  %-23s%-19s${state_color}%-12s${RESTORE}%-21s%-17s%-17s%-20s%-20s%-20s%-16s%-20s\n" \
                    $j\
                    ${instance_name_}\
                    ${instance_id_}\
