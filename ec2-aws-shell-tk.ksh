@@ -66,7 +66,7 @@ function describe_instances {
        case $instance_state_ in
            'STOPPED '                            ) state_color="${LIGHTGRAY}";;
            'RUNNING '                            ) state_color="${LGREEN}";;
-           #'TERMINATED'                             ) state_color="${LIGHTGRAY}";;
+           'TERMINAT'                            ) state_color="${LIGHTGRAY}";;
            'STOPPING' | 'PENDING ' | 'SHUTTING'  ) state_color="${YELLOW}";;
            *                                     ) state_color="${RESTORE}";;
        esac
