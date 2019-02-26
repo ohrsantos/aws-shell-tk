@@ -64,18 +64,20 @@ function describe_instances {
        instance_image_id_=${instance_image_id[$j]:4:17}
 
        case $instance_state_ in
-           'STOPPED   '                            ) state_color="${RED}";;
-           'RUNNING   '                            ) state_color="${LGREEN}";;
-           'TERMINATED'                            ) state_color="${LIGHTGRAY}";;
-           'STOPPING  ' | 'PENDING   ' | 'SHUTTING-D'  ) state_color="${YELLOW}";;
-           *                                     ) state_color="${RESTORE}";;
+           'STOPPED   ' ) state_color="${RED}";       __instance_state_=' STOPPED    ';;
+           'RUNNING   ' ) state_color="${LGREEN}";    __instance_state_=' RUNNING    ';;
+           'TERMINATED' ) state_color="${LIGHTGRAY}"; __instance_state_='TERMINATED  ';;
+           'STOPPING  ' ) state_color="${YELLOW}";    __instance_state_=' STOPPING   ';;
+           'PENDING   ' ) state_color="${YELLOW}";    __instance_state_=' PENDING    ';;
+           'SHUTTING-D' ) state_color="${YELLOW}";    __instance_state_='SHUTTING-D  ';;
+           *            ) state_color="${RESTORE}";   __instance_state_=' STOPPING   ' ;;
        esac
 
-       printf "${WHITE}%02u${RESTORE}  %-23s%-19s${state_color}%-12s${RESTORE}%-21s%-17s%-17s%-20s%-20s%-20s%-16s%-20s\n" \
+       printf "${WHITE}%02u${RESTORE}  %-23s%-19s${state_color}%s${RESTORE}%-21s%-17s%-17s%-20s%-20s%-20s%-16s%-20s\n" \
                    $j\
                    ${instance_name_}\
-                   ${instance_id_}\
-                   ${instance_state_}\
+                   "${instance_id_}"\
+                   "${__instance_state_}"\
                    ${instance_launch_time_}\
                    ${instance_private_ip[$j]}\
                    ${instance_public_ip[$j]}\
