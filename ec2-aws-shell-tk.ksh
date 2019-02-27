@@ -4,10 +4,10 @@
 #######################################################################################################################
 SCRIPT_NAME="ec2-aws-shell-tk"
 #######################################################################################################################
-VERSION="0.53a"
+VERSION="0.54a"
 AUTHOR="Orlando Hehl Rebelo dos Santos"
 DATE_INI="10-01-2018"
-DATE_END="26-11-2019"
+DATE_END="27-02-2019"
 #######################################################################################################################
 
 function load_instances_data {
@@ -110,8 +110,14 @@ function run_ec2_action {
 
    case $EC2_ACTION in
        SSH_INSTANCE )
-           echo "ssh -Y -o \"StrictHostKeyChecking no\" -i $PEM_FILE $INSTANCE_USR@${instance_public_ip[$target]}"
-           ssh -Y -o "StrictHostKeyChecking no" -i $PEM_FILE $INSTANCE_USR@${instance_public_ip[$target]}
+           if [[ ${instance_public_ip[$target]} != "---" ]]; then
+               ip_addr=${instance_public_ip[$target]}
+           else
+               ip_addr=${instance_private_ip[$target]}
+           fi
+           echo "ssh -Y -o \"StrictHostKeyChecking no\" -i $PEM_FILE $INSTANCE_USR@$ip_addr"
+           ssh -Y -o "StrictHostKeyChecking no" -i $PEM_FILE $INSTANCE_USR@$ip_addr
+
            ;;  
        SR-CMD_INSTANCE )
            ssh -o "StrictHostKeyChecking no" -i $PEM_FILE $INSTANCE_USR@${instance_public_ip[$target]} <<< "$SR_CMD"
