@@ -4,7 +4,7 @@
 #######################################################################################################################
 SCRIPT_NAME="ec2-aws-shell-tk"
 #######################################################################################################################
-VERSION="0.54a"
+VERSION="0.55a"
 AUTHOR="Orlando Hehl Rebelo dos Santos"
 DATE_INI="10-01-2018"
 DATE_END="27-02-2019"
@@ -108,25 +108,25 @@ BOLD_RED="\033[1;49;91m"
 
 function run_ec2_action {
 
+   if [[ ${instance_public_ip[$target]} != "---" ]]; then
+       ip_addr=${instance_public_ip[$target]}
+   else
+       ip_addr=${instance_private_ip[$target]}
+   fi
+
    case $EC2_ACTION in
        SSH_INSTANCE )
-           if [[ ${instance_public_ip[$target]} != "---" ]]; then
-               ip_addr=${instance_public_ip[$target]}
-           else
-               ip_addr=${instance_private_ip[$target]}
-           fi
            echo "ssh -Y -o \"StrictHostKeyChecking no\" -i $PEM_FILE $INSTANCE_USR@$ip_addr"
            ssh -Y -o "StrictHostKeyChecking no" -i $PEM_FILE $INSTANCE_USR@$ip_addr
-
            ;;  
        SR-CMD_INSTANCE )
-           ssh -o "StrictHostKeyChecking no" -i $PEM_FILE $INSTANCE_USR@${instance_public_ip[$target]} <<< "$SR_CMD"
+           ssh -o "StrictHostKeyChecking no" -i $PEM_FILE $INSTANCE_USR@$ip_addr <<< "$SR_CMD"
            ;;  
        SCP_INSTANCE )
-           scp  -o "StrictHostKeyChecking no" -i $PEM_FILE $LOCAL_FILE $INSTANCE_USR@${instance_public_ip[$target]}:$REMOTE_FILE
+           scp  -o "StrictHostKeyChecking no" -i $PEM_FILE $LOCAL_FILE $INSTANCE_USR@$ip_addr:$REMOTE_FILE
            ;;  
        BROWSER_INSTANCE )
-           eval $BROWSER http://${instance_public_ip[$target]}:$PORT
+           eval $BROWSER http://$ip_addr:$PORT
            ;;  
        RUN_INSTANCE )
            run_instance
