@@ -146,7 +146,7 @@ function run_ec2_action {
            echo -n 'Type the exactly instance name to proceed: '
            read instance_name_to_delete
            if [[ $instance_name_to_delete == ${instance_name[$target]} ]]; then
-               $AWS ec2 terminate-instances --instance-ids  ${instance_id[$target]}
+               $AWS ec2 terminate-instances --instance-ids  ${instance_id[$target]}  | pygmentize -l json  -f 256 -O style=monokai
            else
                echo
                echo 'Instance name does not match, action canceled!'
