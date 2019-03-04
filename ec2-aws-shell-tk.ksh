@@ -64,16 +64,16 @@ function describe_instances {
        instance_image_id_=${instance_image_id[$j]:4:17}
 
        case $instance_state_ in
-           'STOPPED   ' ) state_color="${RED}";       __instance_state_=' STOPPED    ';;
-           'RUNNING   ' ) state_color="${LGREEN}";    __instance_state_=' RUNNING    ';;
-           'TERMINATED' ) state_color="${LIGHTGRAY}"; __instance_state_='TERMINATED  ';;
-           'STOPPING  ' ) state_color="${YELLOW}";    __instance_state_=' STOPPING   ';;
-           'PENDING   ' ) state_color="${YELLOW}";    __instance_state_=' PENDING    ';;
-           'SHUTTING-D' ) state_color="${YELLOW}";    __instance_state_='SHUTTING-D  ';;
-           *            ) state_color="${RESTORE}";   __instance_state_=' STOPPING   ' ;;
+           'STOPPED   ' ) state_color="${D_RED}";       __instance_state_=' STOPPED    ';;
+           'RUNNING   ' ) state_color="${D_LGREEN}";    __instance_state_=' RUNNING    ';;
+           'TERMINATED' ) state_color="${D_LIGHTGRAY}"; __instance_state_='TERMINATED  ';;
+           'STOPPING  ' ) state_color="${D_YELLOW}";    __instance_state_=' STOPPING   ';;
+           'PENDING   ' ) state_color="${D_YELLOW}";    __instance_state_=' PENDING    ';;
+           'SHUTTING-D' ) state_color="${D_YELLOW}";    __instance_state_='SHUTTING-D  ';;
+           *            ) state_color="${C_RST}";     __instance_state_=' STOPPING   ' ;;
        esac
 
-       printf "${WHITE}%02u${RESTORE}  %-23s%-19s${state_color}%s${RESTORE}%-21s%-17s%-17s%-20s%-20s%-20s%-16s%-20s\n" \
+       printf "${WHITE}%02u${C_RST}  %-23s%-19s${state_color}%s${C_RST}%-21s%-17s%-17s%-20s%-20s%-20s%-16s%-20s\n" \
                    $j\
                    ${instance_name_}\
                    "${instance_id_}"\
