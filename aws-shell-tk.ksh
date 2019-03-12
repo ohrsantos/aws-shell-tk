@@ -4,11 +4,12 @@
 #######################################################################################################################
 SCRIPT_NAME="aws-shell-tk"
 #######################################################################################################################
-VERSION="0.65a"
+SCRIPT_VERSION="0.66a"
 AUTHOR="Orlando Hehl Rebelo dos Santos"
-DATE_INI="10-01-2018"
-DATE_END="04-03-2019"
+SCRIPT_DATE_INI="10-01-2018"
+SCRIPT_DATE_END="12-03-2019"
 #######################################################################################################################
+printf "$SCRIPT_NAME $SCRIPT_VERSION - $SCRIPT_DATE_END  \n\n"
 
 #######################################################################################################################
 # Imports
@@ -118,7 +119,7 @@ do
                 OUTPUT_FRMT="--output ${OPTARG}"
                 ;;
             v)
-                echo "${VERSION}"
+                echo "${AWS_SHELL_TK_VERSION}"
                 exit 0
                 ;;
             h|*)
@@ -130,7 +131,6 @@ done
 
 shift $(($OPTIND - 1))
 
-printf "$SCRIPT_NAME $VERSION - $DATE_END  \n\n"
 
 function cleanup {
     if [[ -e $INSTANCES_TMP_FILE ]]; then
