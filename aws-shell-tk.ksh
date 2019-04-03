@@ -29,6 +29,7 @@ EC2_ACTION=""
 PORT="80"
 DOCKER_PROFILE="ohrsan"
 CONTAINER_VOLUME=""
+OPTION_NUM=''
 
 INSTANCE_USR="ec2-user"
 #INSTANCE_NAME=""
@@ -45,6 +46,7 @@ usage(){
 	echo "  -u   Set AWS user profile name"
 	echo "  -r   Region"
 	echo "  -O   Output format"
+	echo "  -o   Option number for noninteractivity"
 	echo "  -s   Service: ec2|s3|rds"
 	echo "  -l   List instances"
 	echo "  -a   Action to apply to EC2 instances: ssh|scp|browser|run|start|stop|terminate"
@@ -61,7 +63,7 @@ usage(){
 	echo "  -h   Print help and exit"
 }
 
-while getopts "u:r:s:la:P:N:t:V:T:I:K:n:L:O:vh" arg
+while getopts "u:r:s:la:P:N:t:V:T:I:K:n:L:O:o:vh" arg
 do
         case $arg in
             u)
@@ -112,11 +114,14 @@ do
             n)
                 INSTANCE_NAME="${OPTARG}"
                 ;;
-	    L)
+	        L)
                 INSTANCE_USR="${OPTARG}"
                 ;;
-	    O)
+	        O)
                 OUTPUT_FRMT="--output ${OPTARG}"
+                ;;
+	        o)
+                OPTION_NUM="${OPTARG}"
                 ;;
             v)
                 echo "${AWS_SHELL_TK_VERSION}"
@@ -178,8 +183,10 @@ fi
 if [[ $EC2_ACTION == "RUN_INSTANCE" ]]; then
    run_ec2_action
 elif [[ -n $EC2_ACTION ]]; then
-   printf "Type the target instance number for the action: "
-   read target
+    if [[ -z $OPTION_NUM ]]; then
+       printf "Type the target instance number for the action: "
+       read target
+   fi
    run_ec2_action
 fi
 
