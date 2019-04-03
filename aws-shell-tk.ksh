@@ -44,7 +44,7 @@ usage(){
    #                                   [-I ami-instance-id"] [-k key-pair] [-n instance-name] "
 	echo "  -u   Set AWS user profile name"
 	echo "  -r   Region"
-	echo "  -o   Output format"
+	echo "  -O   Output format"
 	echo "  -s   Service: ec2|s3|rds"
 	echo "  -l   List instances"
 	echo "  -a   Action to apply to EC2 instances: ssh|scp|browser|run|start|stop|terminate"
@@ -61,7 +61,7 @@ usage(){
 	echo "  -h   Print help and exit"
 }
 
-while getopts "u:r:s:la:P:N:t:V:T:I:K:n:L:o:vh" arg
+while getopts "u:r:s:la:P:N:t:V:T:I:K:n:L:O:vh" arg
 do
         case $arg in
             u)
@@ -115,7 +115,7 @@ do
 	    L)
                 INSTANCE_USR="${OPTARG}"
                 ;;
-	    o)
+	    O)
                 OUTPUT_FRMT="--output ${OPTARG}"
                 ;;
             v)
