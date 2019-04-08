@@ -4,10 +4,10 @@
 #######################################################################################################################
 SCRIPT_NAME="aws-shell-tk"
 #######################################################################################################################
-SCRIPT_VERSION="0.66a"
+SCRIPT_VERSION="0.67a"
 AUTHOR="Orlando Hehl Rebelo dos Santos"
 SCRIPT_DATE_INI="10-01-2018"
-SCRIPT_DATE_END="12-03-2019"
+SCRIPT_DATE_END="08-04-2019"
 #######################################################################################################################
 printf "$SCRIPT_NAME $SCRIPT_VERSION - $SCRIPT_DATE_END  \n\n"
 
@@ -29,7 +29,7 @@ EC2_ACTION=""
 PORT="80"
 DOCKER_PROFILE="ohrsan"
 CONTAINER_VOLUME=""
-OPTION_NUM=''
+target=''
 
 INSTANCE_USR="ec2-user"
 #INSTANCE_NAME=""
@@ -121,7 +121,7 @@ do
                 OUTPUT_FRMT="--output ${OPTARG}"
                 ;;
 	        o)
-                OPTION_NUM="${OPTARG}"
+                target="${OPTARG}"
                 ;;
             v)
                 echo "${AWS_SHELL_TK_VERSION}"
@@ -183,7 +183,7 @@ fi
 if [[ $EC2_ACTION == "RUN_INSTANCE" ]]; then
    run_ec2_action
 elif [[ -n $EC2_ACTION ]]; then
-    if [[ -z $OPTION_NUM ]]; then
+    if [[ -z $target ]]; then
        printf "Type the target instance number for the action: "
        read target
    fi
