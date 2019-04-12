@@ -4,10 +4,10 @@
 #######################################################################################################################
 SCRIPT_NAME="aws-shell-tk"
 #######################################################################################################################
-SCRIPT_VERSION="0.66a"
+SCRIPT_VERSION="0.67a"
 AUTHOR="Orlando Hehl Rebelo dos Santos"
 SCRIPT_DATE_INI="10-01-2018"
-SCRIPT_DATE_END="12-03-2019"
+SCRIPT_DATE_END="03-04-2019"
 #######################################################################################################################
 printf "$SCRIPT_NAME $SCRIPT_VERSION - $SCRIPT_DATE_END  \n\n"
 
@@ -186,6 +186,8 @@ elif [[ -n $EC2_ACTION ]]; then
     if [[ -z $OPTION_NUM ]]; then
        printf "Type the target instance number for the action: "
        read target
+   else
+       target=$OPTION_NUM
    fi
    run_ec2_action
 fi
