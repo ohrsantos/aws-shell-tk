@@ -4,10 +4,10 @@
 #######################################################################################################################
 SCRIPT_NAME="ec2-aws-shell-tk"
 #######################################################################################################################
-EC2_AWS_SHELL_TK_VERSION="0.56a"
+EC2_AWS_SHELL_TK_VERSION="0.57a"
 AUTHOR="Orlando Hehl Rebelo dos Santos"
 DATE_INI="10-01-2018"
-DATE_END="12-03-2019"
+DATE_END="16-05-2019"
 #######################################################################################################################
 
 function load_instances_data {
@@ -132,10 +132,12 @@ function run_ec2_action {
            run_instance
            ;;  
        START_INSTANCE )
-           $AWS ec2 start-instances --instance-ids  ${instance_id[$target]} | pygmentize -l json  -f 256 -O style=monokai
+           $AWS ec2 start-instances --instance-ids  ${instance_id[$target]} | jq
+           #$AWS ec2 start-instances --instance-ids  ${instance_id[$target]} | pygmentize -l json  -f 256 -O style=monokai
            ;;  
        STOP_INSTANCE )
            $AWS ec2 stop-instances --instance-ids  ${instance_id[$target]} | pygmentize -l json  -f 256 -O style=monokai
+           #$AWS ec2 stop-instances --instance-ids  ${instance_id[$target]} | jq
            ;;  
        TERMINATE_INSTANCE )
            echo
