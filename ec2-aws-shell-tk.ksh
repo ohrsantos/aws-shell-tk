@@ -136,8 +136,8 @@ function run_ec2_action {
            #$AWS ec2 start-instances --instance-ids  ${instance_id[$target]} | pygmentize -l json  -f 256 -O style=monokai
            ;;  
        STOP_INSTANCE )
-           $AWS ec2 stop-instances --instance-ids  ${instance_id[$target]} | pygmentize -l json  -f 256 -O style=monokai
-           #$AWS ec2 stop-instances --instance-ids  ${instance_id[$target]} | jq
+           $AWS ec2 stop-instances --instance-ids  ${instance_id[$target]} | jq
+           #$AWS ec2 stop-instances --instance-ids  ${instance_id[$target]} | pygmentize -l json  -f 256 -O style=monokai
            ;;  
        TERMINATE_INSTANCE )
            echo
