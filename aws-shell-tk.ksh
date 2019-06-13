@@ -4,10 +4,10 @@
 #######################################################################################################################
 SCRIPT_NAME="aws-shell-tk"
 #######################################################################################################################
-SCRIPT_VERSION="0.68a"
+SCRIPT_VERSION="0.70a"
 AUTHOR="Orlando Hehl Rebelo dos Santos"
 SCRIPT_DATE_INI="10-01-2018"
-SCRIPT_DATE_END="29-04-2019"
+SCRIPT_DATE_END="13/06-2019"
 #######################################################################################################################
 printf "$SCRIPT_NAME $SCRIPT_VERSION - $SCRIPT_DATE_END  \n\n"
 
@@ -43,33 +43,33 @@ usage(){
  #                                     [-P port] [-N container-name] [-t container-tag]\
   #                                    [-V container-volume] [-U docker-profile] [-T bootstrap-file]\
    #                                   [-I ami-instance-id"] [-k key-pair] [-n instance-name] "
-	echo "  -u   Set AWS user profile name"
-	echo "  -r   Region"
+	echo "  -P   Set AWS user profile name"
+	echo "  -R   Region"
 	echo "  -O   Output format"
 	echo "  -o   Option number for noninteractivity"
 	echo "  -s   Service: ec2|s3|rds"
 	echo "  -l   List instances"
 	echo "  -a   Action to apply to EC2 instances: ssh|scp|browser|run|start|stop|terminate"
-	echo "  -P   TCP port number for the browser and container app published TCP port map"
+	echo "  -p   TCP port number for the browser and container app published TCP port map"
 	echo "  -N   Container application name"
 	echo "  -t   Container application tag preceded by \":\""
 	echo "  -V   Container application volume"
 	echo "  -U   Set Docker user profile name"
 	echo "  -T   Name of the bootstrap file"
 	echo "  -I   AMI instance id for instance instantiation"
-	echo "  -L   Instance user"
-	echo "  -K   specify key pair"
+	echo "  -u   Instance user"
+	echo "  -k   specify key pair"
 	echo "  -n   specify instance name"
 	echo "  -h   Print help and exit"
 }
 
-while getopts "u:r:s:la:P:N:t:V:T:I:K:n:L:O:o:vh" arg
+while getopts "u:r:s:la:P:N:t:V:T:I:k:n:L:O:o:vh" arg
 do
         case $arg in
-            u)
+            P)
                 PROFILE_USR="--profile $OPTARG"
                 ;;
-            r)
+            R)
                 REGION="--region $OPTARG"
                 ;;
             s)
@@ -84,7 +84,7 @@ do
 
                 SERVICE="ec2"
                 ;;
-            P)
+            p)
                 PORT=${OPTARG}
                 ;;
             N)
@@ -99,7 +99,7 @@ do
                     CONTAINER_VOLUME="-v ${OPTARG}"
                 fi
                 ;;
-            u)
+            U)
                 DOCKER_PROFILE=$OPTARG
                 ;;
             T)
@@ -108,13 +108,13 @@ do
             I)
                 AMI_ID=${OPTARG}
                 ;;
-            K)
+            k)
                 KEY_PAIR=${OPTARG}
                 ;;
             n)
                 INSTANCE_NAME="${OPTARG}"
                 ;;
-	        L)
+	        u)
                 INSTANCE_USR="${OPTARG}"
                 ;;
 	        O)
