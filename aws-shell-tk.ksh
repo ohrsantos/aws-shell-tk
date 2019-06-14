@@ -4,10 +4,10 @@
 #######################################################################################################################
 SCRIPT_NAME="aws-shell-tk"
 #######################################################################################################################
-SCRIPT_VERSION="0.70a"
+SCRIPT_VERSION="0.71a"
 AUTHOR="Orlando Hehl Rebelo dos Santos"
 SCRIPT_DATE_INI="10-01-2018"
-SCRIPT_DATE_END="13/06-2019"
+SCRIPT_DATE_END="14/06-2019"
 #######################################################################################################################
 printf "$SCRIPT_NAME $SCRIPT_VERSION - $SCRIPT_DATE_END  \n\n"
 
@@ -63,7 +63,7 @@ usage(){
 	echo "  -h   Print help and exit"
 }
 
-while getopts "u:r:s:la:P:N:t:V:T:I:k:n:L:O:o:vh" arg
+while getopts "u:R:s:la:P:N:t:V:T:I:k:n:L:O:o:vh" arg
 do
         case $arg in
             P)
