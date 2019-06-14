@@ -4,7 +4,7 @@
 #######################################################################################################################
 SCRIPT_NAME="ec2-aws-shell-tk"
 #######################################################################################################################
-EC2_AWS_SHELL_TK_VERSION="0.58a"
+EC2_AWS_SHELL_TK_VERSION="0.59a"
 AUTHOR="Orlando Hehl Rebelo dos Santos"
 DATE_INI="10-01-2018"
 DATE_END="13-06-2019"
@@ -24,10 +24,10 @@ function load_instances_data {
        instance_launch_time[$z]=$(jq ".Reservations[$i].Instances[$j].LaunchTime" < $INSTANCES_TMP_FILE | tr -d ' "')
     
        instance_public_ip[$z]=$(jq ".Reservations[$i].Instances[$j].PublicIpAddress" < $INSTANCES_TMP_FILE | tr -d ' "')
-       if [[ ${instance_public_ip[$i]} == "null" ]]; then instance_public_ip[$z]="---"; fi
+       if [[ ${instance_public_ip[$z]} == "null" ]]; then instance_public_ip[$z]="---"; fi
     
        instance_private_ip[$z]=$(jq ".Reservations[$i].Instances[$j].PrivateIpAddress" < $INSTANCES_TMP_FILE | tr -d ' "')
-       if [[ ${instance_private_ip[$i]} == "null" ]]; then instance_private_ip[$z]="---"; fi
+       if [[ ${instance_private_ip[$z]} == "null" ]]; then instance_private_ip[$z]="---"; fi
     
        tag_id=0
        while [[ $(jq ".Reservations[$i].Instances[$j].Tags[$tag_id].Key" < $INSTANCES_TMP_FILE ) != "null" ]]; do
@@ -38,8 +38,6 @@ function load_instances_data {
            else
                instance_name[$z]="---"
            fi
-           #instance_name[$z]=$(jq ".Reservations[$i].Instances[$j].Tags[0].Value" < $INSTANCES_TMP_FILE | tr -d ' "')
-           #if [[ -z ${instance_name[$i]} ]]; then instance_name[$z]="---"; fi
            tag_id=$((tag_id+1))
        done
 
