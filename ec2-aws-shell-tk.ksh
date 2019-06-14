@@ -57,21 +57,21 @@ function load_instances_data {
 }
     
 function describe_instances {
-    printf "%-4s%-23s%-21s%-12s%-19s%-17s%-17s%-20s%-20s%-20s%-16s%-20s\n"\
-           "No" "INSTANCE_NAME" "INSTANCE_ID" "STATE" "LAUNCH_TIME" "PRIVATE_IP" "PUBLIC_IP " "VPC_ID"  "SUB_NET_ID"  "KEY_NAME" "INSTANCE_TYPE" "IMAGE_ID"
+    printf "%-4s%-18s%-12s%-11s%-21s%-17s%-17s%-13s%-13s%-17s%-12s%-13s\n"\
+           "No" "INST_NAME" "INST_ID" "STATE" "LAUNCH_TIME" "PRIVATE_IP" "PUBLIC_IP " "VPC_ID"  "SUBNET_ID"  "KEY_NAME" "INST_TYPE" "IMAGE_ID"
     #for (( j=0; $j < $i; j++ )); do
     j=0
     while [[ $j -lt $z ]]; do
     
        typeset -u instance_state_=${instance_state[$j]}
        typeset -L10 instance_state_
-       typeset -L22 instance_name_=${instance_name[$j]}
+       typeset -L16 instance_name_=${instance_name[$j]}
        typeset -L19 instance_launch_time_=${instance_launch_time[$j]}
-       typeset -L17 instance_key_name_=${instance_key_name[$j]}
-       instance_id_=${instance_id[$j]:2:17}
-       instance_subnet_=${instance_subnet[$j]:7:17}
-       instance_vpc_=${instance_vpc[$j]:4:17}
-       instance_image_id_=${instance_image_id[$j]:4:17}
+       typeset -L15 instance_key_name_=${instance_key_name[$j]}
+       instance_id_=${instance_id[$j]:2:10}
+       instance_subnet_=${instance_subnet[$j]:7:10}
+       instance_vpc_=${instance_vpc[$j]:4:10}
+       instance_image_id_=${instance_image_id[$j]:4:10}
 
        case $instance_state_ in
            'STOPPED   ' ) state_color="${D_RED}";       __instance_state_=' STOPPED    ';;
@@ -80,10 +80,10 @@ function describe_instances {
            'STOPPING  ' ) state_color="${D_YELLOW}";    __instance_state_=' STOPPING   ';;
            'PENDING   ' ) state_color="${D_YELLOW}";    __instance_state_=' PENDING    ';;
            'SHUTTING-D' ) state_color="${D_YELLOW}";    __instance_state_='SHUTTING-D  ';;
-           *            ) state_color="${C_RST}";     __instance_state_=' STOPPING   ' ;;
+           *            ) state_color="${C_RST}";       __instance_state_=' STOPPING   ' ;;
        esac
 
-       printf "${WHITE}%02u${C_RST}  %-23s%-19s${state_color}%s${C_RST}%-21s%-17s%-17s%-20s%-20s%-20s%-16s%-20s\n" \
+       printf "${WHITE}%02u${C_RST}  %-18s%-11s${state_color}%s${C_RST}%-21s%-17s%-17s%-13s%-13s%-17s%-12s%-13s\n" \
                    $j\
                    ${instance_name_}\
                    "${instance_id_}"\
