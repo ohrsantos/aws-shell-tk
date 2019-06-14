@@ -4,7 +4,7 @@
 #######################################################################################################################
 SCRIPT_NAME="ec2-aws-shell-tk"
 #######################################################################################################################
-EC2_AWS_SHELL_TK_VERSION="0.59a"
+EC2_AWS_SHELL_TK_VERSION="0.60a"
 AUTHOR="Orlando Hehl Rebelo dos Santos"
 DATE_INI="10-01-2018"
 DATE_END="13-06-2019"
@@ -67,6 +67,7 @@ function describe_instances {
        typeset -L10 instance_state_
        typeset -L22 instance_name_=${instance_name[$j]}
        typeset -L19 instance_launch_time_=${instance_launch_time[$j]}
+       typeset -L17 instance_key_name_=${instance_key_name[$j]}
        instance_id_=${instance_id[$j]:2:17}
        instance_subnet_=${instance_subnet[$j]:7:17}
        instance_vpc_=${instance_vpc[$j]:4:17}
@@ -92,7 +93,7 @@ function describe_instances {
                    ${instance_public_ip[$j]}\
                    ${instance_vpc_}\
                    ${instance_subnet_}\
-                   ${instance_key_name[$j]}\
+                   ${instance_key_name_}\
                    ${instance_type[$j]}\
                    ${instance_image_id_}
        j=$((j+1))
