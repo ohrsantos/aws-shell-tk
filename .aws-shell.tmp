@@ -1,0 +1,319 @@
+{
+    "Reservations": [
+        {
+            "Instances": [
+                {
+                    "Tags": [
+                        {
+                            "Key": "Name",
+                            "Value": "vpn-jump-box-auto-simp"
+                        }
+                    ],
+                    "ClientToken": "",
+                    "NetworkInterfaces": [
+                        {
+                            "Status": "in-use",
+                            "Groups": [
+                                {
+                                    "GroupName": "vpn-jump-box-sg",
+                                    "GroupId": "sg-00f98a962500a3a80"
+                                }
+                            ],
+                            "PrivateDnsName": "ip-10-1-1-81.sa-east-1.compute.internal",
+                            "PrivateIpAddress": "10.1.1.81",
+                            "NetworkInterfaceId": "eni-051749bd579a985d7",
+                            "SubnetId": "subnet-0858a9eac4298c6b5",
+                            "VpcId": "vpc-07683ee3decccf8fc",
+                            "SourceDestCheck": true,
+                            "MacAddress": "0a:30:02:69:a8:2a",
+                            "Description": "Primary network interface",
+                            "Attachment": {
+                                "AttachmentId": "eni-attach-04650578856a6a476",
+                                "Status": "attached",
+                                "AttachTime": "2019-02-26T11:21:15.000Z",
+                                "DeleteOnTermination": true,
+                                "DeviceIndex": 0
+                            },
+                            "OwnerId": "808339531437",
+                            "PrivateIpAddresses": [
+                                {
+                                    "PrivateDnsName": "ip-10-1-1-81.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.1.1.81",
+                                    "Primary": true
+                                }
+                            ]
+                        }
+                    ],
+                    "Architecture": "x86_64",
+                    "PrivateIpAddress": "10.1.1.81",
+                    "InstanceId": "i-030287a0fac1a0af2",
+                    "SubnetId": "subnet-0858a9eac4298c6b5",
+                    "VpcId": "vpc-07683ee3decccf8fc",
+                    "Hypervisor": "xen",
+                    "StateTransitionReason": "",
+                    "PublicDnsName": "",
+                    "Placement": {
+                        "GroupName": "",
+                        "Tenancy": "default",
+                        "AvailabilityZone": "sa-east-1c"
+                    },
+                    "EnaSupport": true,
+                    "RootDeviceType": "ebs",
+                    "AmiLaunchIndex": 0,
+                    "RootDeviceName": "/dev/sda1",
+                    "EbsOptimized": false,
+                    "SourceDestCheck": true,
+                    "ProductCodes": [],
+                    "SecurityGroups": [
+                        {
+                            "GroupName": "vpn-jump-box-sg",
+                            "GroupId": "sg-00f98a962500a3a80"
+                        }
+                    ],
+                    "VirtualizationType": "hvm",
+                    "InstanceType": "t2.small",
+                    "LaunchTime": "2019-02-28T11:32:37.000Z",
+                    "KeyName": "ohrs-sa-east-1-kp",
+                    "PrivateDnsName": "ip-10-1-1-81.sa-east-1.compute.internal",
+                    "ImageId": "ami-0318cb6e2f90d688b",
+                    "BlockDeviceMappings": [
+                        {
+                            "DeviceName": "/dev/sda1",
+                            "Ebs": {
+                                "VolumeId": "vol-01275c67fa8dbfd07",
+                                "AttachTime": "2019-02-26T11:21:15.000Z",
+                                "Status": "attached",
+                                "DeleteOnTermination": true
+                            }
+                        }
+                    ],
+                    "Monitoring": {
+                        "State": "disabled"
+                    },
+                    "State": {
+                        "Name": "running",
+                        "Code": 16
+                    }
+                }
+            ],
+            "ReservationId": "r-0c07a6d6e4b3c4f2f",
+            "Groups": [],
+            "OwnerId": "808339531437"
+        },
+        {
+            "Instances": [
+                {
+                    "Tags": [
+                        {
+                            "Key": "Name",
+                            "Value": "pub-jump-box-auto-simp"
+                        }
+                    ],
+                    "ClientToken": "",
+                    "NetworkInterfaces": [
+                        {
+                            "Status": "in-use",
+                            "Groups": [
+                                {
+                                    "GroupName": "pub-jump-box-sg",
+                                    "GroupId": "sg-0c0ab940e6ce3df92"
+                                }
+                            ],
+                            "PrivateDnsName": "ip-10-1-0-249.sa-east-1.compute.internal",
+                            "PrivateIpAddress": "10.1.0.249",
+                            "NetworkInterfaceId": "eni-06150a4fbe9fd5e29",
+                            "SubnetId": "subnet-0385a4eed45a9b114",
+                            "VpcId": "vpc-07683ee3decccf8fc",
+                            "SourceDestCheck": true,
+                            "MacAddress": "02:bd:36:b1:f6:6e",
+                            "Description": "Primary network interface",
+                            "Association": {
+                                "IpOwnerId": "amazon",
+                                "PublicDnsName": "ec2-54-233-215-33.sa-east-1.compute.amazonaws.com",
+                                "PublicIp": "54.233.215.33"
+                            },
+                            "Attachment": {
+                                "AttachmentId": "eni-attach-0b7d4105ae7b293c4",
+                                "Status": "attached",
+                                "AttachTime": "2019-02-26T11:10:54.000Z",
+                                "DeleteOnTermination": true,
+                                "DeviceIndex": 0
+                            },
+                            "OwnerId": "808339531437",
+                            "PrivateIpAddresses": [
+                                {
+                                    "PrivateDnsName": "ip-10-1-0-249.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.1.0.249",
+                                    "Primary": true,
+                                    "Association": {
+                                        "IpOwnerId": "amazon",
+                                        "PublicDnsName": "ec2-54-233-215-33.sa-east-1.compute.amazonaws.com",
+                                        "PublicIp": "54.233.215.33"
+                                    }
+                                }
+                            ]
+                        }
+                    ],
+                    "Architecture": "x86_64",
+                    "PrivateIpAddress": "10.1.0.249",
+                    "InstanceId": "i-0fa558aaf12f1183b",
+                    "SubnetId": "subnet-0385a4eed45a9b114",
+                    "VpcId": "vpc-07683ee3decccf8fc",
+                    "Hypervisor": "xen",
+                    "StateTransitionReason": "",
+                    "PublicDnsName": "ec2-54-233-215-33.sa-east-1.compute.amazonaws.com",
+                    "Placement": {
+                        "GroupName": "",
+                        "Tenancy": "default",
+                        "AvailabilityZone": "sa-east-1a"
+                    },
+                    "EnaSupport": true,
+                    "RootDeviceType": "ebs",
+                    "AmiLaunchIndex": 0,
+                    "RootDeviceName": "/dev/sda1",
+                    "EbsOptimized": false,
+                    "SourceDestCheck": true,
+                    "ProductCodes": [],
+                    "SecurityGroups": [
+                        {
+                            "GroupName": "pub-jump-box-sg",
+                            "GroupId": "sg-0c0ab940e6ce3df92"
+                        }
+                    ],
+                    "State": {
+                        "Name": "running",
+                        "Code": 16
+                    },
+                    "InstanceType": "t2.small",
+                    "LaunchTime": "2019-02-28T11:10:48.000Z",
+                    "KeyName": "ohrs-sa-east-1-kp",
+                    "PrivateDnsName": "ip-10-1-0-249.sa-east-1.compute.internal",
+                    "ImageId": "ami-0318cb6e2f90d688b",
+                    "BlockDeviceMappings": [
+                        {
+                            "DeviceName": "/dev/sda1",
+                            "Ebs": {
+                                "VolumeId": "vol-0e911065108ccd0ae",
+                                "AttachTime": "2019-02-26T11:10:55.000Z",
+                                "Status": "attached",
+                                "DeleteOnTermination": true
+                            }
+                        }
+                    ],
+                    "VirtualizationType": "hvm",
+                    "Monitoring": {
+                        "State": "disabled"
+                    },
+                    "PublicIpAddress": "54.233.215.33"
+                }
+            ],
+            "ReservationId": "r-0fcefe38f3a3fb355",
+            "Groups": [],
+            "OwnerId": "808339531437"
+        },
+        {
+            "Instances": [
+                {
+                    "Tags": [
+                        {
+                            "Key": "Name",
+                            "Value": "rancher-node-01"
+                        }
+                    ],
+                    "ClientToken": "",
+                    "NetworkInterfaces": [
+                        {
+                            "Status": "in-use",
+                            "Groups": [
+                                {
+                                    "GroupName": "pub-jump-box-sg",
+                                    "GroupId": "sg-0c0ab940e6ce3df92"
+                                }
+                            ],
+                            "PrivateDnsName": "ip-10-1-0-14.sa-east-1.compute.internal",
+                            "PrivateIpAddress": "10.1.0.14",
+                            "NetworkInterfaceId": "eni-05088a9149805ca06",
+                            "SubnetId": "subnet-0385a4eed45a9b114",
+                            "VpcId": "vpc-07683ee3decccf8fc",
+                            "SourceDestCheck": true,
+                            "MacAddress": "02:90:21:93:51:48",
+                            "Description": "Primary network interface",
+                            "Attachment": {
+                                "AttachmentId": "eni-attach-0adf2e336003abb6a",
+                                "Status": "attached",
+                                "AttachTime": "2019-02-26T13:49:34.000Z",
+                                "DeleteOnTermination": true,
+                                "DeviceIndex": 0
+                            },
+                            "OwnerId": "808339531437",
+                            "PrivateIpAddresses": [
+                                {
+                                    "PrivateDnsName": "ip-10-1-0-14.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.1.0.14",
+                                    "Primary": true
+                                }
+                            ]
+                        }
+                    ],
+                    "Architecture": "x86_64",
+                    "PrivateIpAddress": "10.1.0.14",
+                    "InstanceId": "i-0be7baec86a585edd",
+                    "SubnetId": "subnet-0385a4eed45a9b114",
+                    "VpcId": "vpc-07683ee3decccf8fc",
+                    "Hypervisor": "xen",
+                    "StateTransitionReason": "User initiated (2019-02-26 16:32:43 GMT)",
+                    "PublicDnsName": "",
+                    "Placement": {
+                        "GroupName": "",
+                        "Tenancy": "default",
+                        "AvailabilityZone": "sa-east-1a"
+                    },
+                    "EnaSupport": true,
+                    "RootDeviceType": "ebs",
+                    "AmiLaunchIndex": 0,
+                    "RootDeviceName": "/dev/sda1",
+                    "EbsOptimized": false,
+                    "SourceDestCheck": true,
+                    "ProductCodes": [],
+                    "SecurityGroups": [
+                        {
+                            "GroupName": "pub-jump-box-sg",
+                            "GroupId": "sg-0c0ab940e6ce3df92"
+                        }
+                    ],
+                    "State": {
+                        "Name": "stopped",
+                        "Code": 80
+                    },
+                    "InstanceType": "t2.small",
+                    "StateReason": {
+                        "Message": "Client.UserInitiatedShutdown: User initiated shutdown",
+                        "Code": "Client.UserInitiatedShutdown"
+                    },
+                    "LaunchTime": "2019-02-26T13:49:34.000Z",
+                    "KeyName": "ohrs-sa-east-1-kp",
+                    "PrivateDnsName": "ip-10-1-0-14.sa-east-1.compute.internal",
+                    "ImageId": "ami-0318cb6e2f90d688b",
+                    "BlockDeviceMappings": [
+                        {
+                            "DeviceName": "/dev/sda1",
+                            "Ebs": {
+                                "VolumeId": "vol-060f3261d8318a9b5",
+                                "AttachTime": "2019-02-26T13:49:34.000Z",
+                                "Status": "attached",
+                                "DeleteOnTermination": true
+                            }
+                        }
+                    ],
+                    "Monitoring": {
+                        "State": "disabled"
+                    },
+                    "VirtualizationType": "hvm"
+                }
+            ],
+            "ReservationId": "r-096fd2aebf0b79db1",
+            "Groups": [],
+            "OwnerId": "808339531437"
+        }
+    ]
+}

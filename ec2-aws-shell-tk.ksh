@@ -126,8 +126,8 @@ function run_ec2_action {
 
    case $EC2_ACTION in
        SSH_INSTANCE )
-           echo "ssh -Y -o \"StrictHostKeyChecking no\" -i $PEM_FILE $INSTANCE_USR@$ip_addr"
-           ssh -Y -o "StrictHostKeyChecking no" -i $PEM_FILE $INSTANCE_USR@$ip_addr
+           echo "ssh -YC -o \"StrictHostKeyChecking no\" -i $PEM_FILE $INSTANCE_USR@$ip_addr"
+           ssh -YC -o "StrictHostKeyChecking no" -i $PEM_FILE $INSTANCE_USR@$ip_addr
            ;;  
        SR-CMD_INSTANCE )
            ssh -o "StrictHostKeyChecking no" -i $PEM_FILE $INSTANCE_USR@$ip_addr <<< "$SR_CMD"
