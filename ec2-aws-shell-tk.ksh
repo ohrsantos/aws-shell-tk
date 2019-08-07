@@ -4,10 +4,10 @@
 #######################################################################################################################
 SCRIPT_NAME="ec2-aws-shell-tk"
 #######################################################################################################################
-EC2_AWS_SHELL_TK_VERSION="0.60a"
+EC2_AWS_SHELL_TK_VERSION="0.61a"
 AUTHOR="Orlando Hehl Rebelo dos Santos"
 DATE_INI="10-01-2018"
-DATE_END="13-06-2019"
+DATE_END="07-08-2019"
 #######################################################################################################################
 
 function load_instances_data {
@@ -126,14 +126,19 @@ function run_ec2_action {
 
    case $EC2_ACTION in
        SSH_INSTANCE )
-           echo "ssh -YC -o \"StrictHostKeyChecking no\" -i $PEM_FILE $INSTANCE_USR@$ip_addr"
-           ssh -YC -o "StrictHostKeyChecking no" -i $PEM_FILE $INSTANCE_USR@$ip_addr
+           CMD="ssh -YCo \"StrictHostKeyChecking no\" -i $PEM_FILE $INSTANCE_USR@$ip_addr"
+           echo "$CMD"
+           eval "$CMD"
            ;;  
        SR-CMD_INSTANCE )
-           ssh -o "StrictHostKeyChecking no" -i $PEM_FILE $INSTANCE_USR@$ip_addr <<< "$SR_CMD"
+           CMD="ssh -YCo \"StrictHostKeyChecking no\" -i $PEM_FILE $INSTANCE_USR@$ip_addr <<< \"$SR_CMD\""
+           echo "$CMD"
+           eval "$CMD"
            ;;  
        SCP_INSTANCE )
-           scp  -o "StrictHostKeyChecking no" -i $PEM_FILE $LOCAL_FILE $INSTANCE_USR@$ip_addr:$REMOTE_FILE
+           CMD="scp  -Co "StrictHostKeyChecking no" -i $PEM_FILE $LOCAL_FILE $INSTANCE_USR@$ip_addr:$REMOTE_FILE"
+           echo "$CMD"
+           eval "$CMD"
            ;;  
        BROWSER_INSTANCE )
            eval $BROWSER http://$ip_addr:$PORT
