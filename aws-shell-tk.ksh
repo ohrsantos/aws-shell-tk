@@ -16,7 +16,7 @@ SCRIPT_DATE_END="02-08-2019"
 AWS_SHELL_DIR="$OHRS_STUFF_PATH/aws-shell-tk"
 OHRS_LIB_DIR="$OHRS_STUFF_PATH/lib/sh"
 . $AWS_SHELL_DIR/ec2-aws-shell-tk.ksh
-. $OHRS_STUFF_PATH/etc/colors-constants.sh
+. $OHRS_STUFF_PATH/etc/color-constants.sh
 
 printf "$SCRIPT_NAME $SCRIPT_VERSION/$EC2_AWS_SHELL_TK_VERSION - $SCRIPT_DATE_END  \n\n"
 
