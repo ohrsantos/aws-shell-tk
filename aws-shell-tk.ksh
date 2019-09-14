@@ -2,23 +2,23 @@
 #        1         2         3         4         5         6         7         8         9         0
 #2345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789
 #######################################################################################################################
-SCRIPT_NAME="aws-shell-tk"
+AWS_SHELL_TK_SCRIPT_NAME="aws-shell-tk"
 #######################################################################################################################
-SCRIPT_VERSION="0.71a"
+SCRIPT_VERSION="0.72a"
 AUTHOR="Orlando Hehl Rebelo dos Santos"
 SCRIPT_DATE_INI="10-01-2018"
-SCRIPT_DATE_END="02-08-2019"
+SCRIPT_DATE_END="14-09-2019"
 #######################################################################################################################
 
 #######################################################################################################################
 # Imports
 #######################################################################################################################
-AWS_SHELL_DIR="$OHRS_STUFF_PATH/aws-shell-tk"
+AWS_SHELL_TK_DIR="$OHRS_STUFF_PATH/aws-shell-tk"
 OHRS_LIB_DIR="$OHRS_STUFF_PATH/lib/sh"
-. $AWS_SHELL_DIR/ec2-aws-shell-tk.ksh
-. $OHRS_STUFF_PATH/etc/color-constants.sh
+source $AWS_SHELL_TK_DIR/ec2-aws-shell-tk.ksh
+source $OHRS_STUFF_PATH/etc/color-constants.sh
 
-printf "$SCRIPT_NAME $SCRIPT_VERSION/$EC2_AWS_SHELL_TK_VERSION - $SCRIPT_DATE_END  \n\n"
+printf "$AWS_SHELL_TK_SCRIPT_NAME $SCRIPT_VERSION/$EC2_AWS_SHELL_TK_VERSION - $SCRIPT_DATE_END  \n\n"
 
 PROFILE_USR=""
 REGION=""
