@@ -4,7 +4,7 @@
 #######################################################################################################################
 AWS_SHELL_TK_SCRIPT_NAME="aws-shell-tk"
 #######################################################################################################################
-SCRIPT_VERSION="0.73a"
+SCRIPT_VERSION="0.74a"
 AUTHOR="Orlando Hehl Rebelo dos Santos"
 SCRIPT_DATE_INI="10-01-2018"
 SCRIPT_DATE_END="16-09-2019"
@@ -27,12 +27,9 @@ SERVICE="ec2"
 DESCRIBE=FALSE
 EC2_ACTION=""
 PORT="80"
-DOCKER_PROFILE="ohrsan"
-CONTAINER_VOLUME=""
 target=''
 
-INSTANCE_USR="ec2-user"
-#INSTANCE_NAME=""
+INSTANCE_USR="ubuntu"
 KEY_PAIR="ohrs-aws-sp-br"
 
 usage(){
@@ -49,19 +46,13 @@ usage(){
 	echo "  -l   List instances"
 	echo "  -a   Action to apply to EC2 instances: ssh|scp|browser|run|start|stop|terminate"
 	echo "  -p   TCP port number for the browser and container app published TCP port map"
-	echo "  -N   Container application name"
-	echo "  -t   Container application tag preceded by \":\""
-	echo "  -V   Container application volume"
-	echo "  -U   Set Docker user profile name"
-	echo "  -T   Name of the bootstrap file"
-	echo "  -I   AMI instance id for instance instantiation"
 	echo "  -u   Instance user"
 	echo "  -k   specify key pair"
-	echo "  -n   specify instance name"
+	echo "  -v   Print version and exit"
 	echo "  -h   Print help and exit"
 }
 
-while getopts "u:R:s:la:P:N:t:V:T:I:k:n:L:O:o:vh" arg
+while getopts "u:R:s:la:P:k:O:o:p:vh" arg
 do
         case $arg in
             P)
@@ -85,32 +76,8 @@ do
             p)
                 PORT=${OPTARG}
                 ;;
-            N)
-                CONTAINER_APP_NAME=${OPTARG}
-                if [[ -z $INSTANCE_NAME ]]; then INSTANCE_NAME=$CONTAINER_APP_NAME; fi
-                ;;
-            t)
-                CONTAINER_TAG=${OPTARG}
-                ;;
-            V)
-                if [[ -n ${OPTARG} ]]; then
-                    CONTAINER_VOLUME="-v ${OPTARG}"
-                fi
-                ;;
-            U)
-                DOCKER_PROFILE=$OPTARG
-                ;;
-            T)
-                BOOTSTRAP_FILE=${OPTARG}
-                ;;
-            I)
-                AMI_ID=${OPTARG}
-                ;;
             k)
                 KEY_PAIR=${OPTARG}
-                ;;
-            n)
-                INSTANCE_NAME="${OPTARG}"
                 ;;
 	        u)
                 INSTANCE_USR="${OPTARG}"
