@@ -13,9 +13,9 @@ SCRIPT_DATE_END="16-09-2019"
 #######################################################################################################################
 # Imports
 #######################################################################################################################
-if [ -n $OHRS_STUFF_PATH ]; then 
+if [ -n "$OHRS_STUFF_PATH" ]; then 
     AWS_SHELL_TK_DIR="$OHRS_STUFF_PATH/aws-shell-tk"
-    OHRS_LIB_DIR="$OHRS_STUFF_PATH/lib/sh"
+    #OHRS_LIB_DIR="$OHRS_STUFF_PATH/lib/sh"
     source $OHRS_STUFF_PATH/etc/color-constants.sh
 fi
 source $AWS_SHELL_TK_DIR/ec2-aws-shell-tk.ksh
