@@ -7,7 +7,7 @@ SCRIPT_NAME="ec2-aws-shell-tk"
 EC2_AWS_SHELL_TK_VERSION="0.61a"
 AUTHOR="Orlando Hehl Rebelo dos Santos"
 DATE_INI="10-01-2018"
-DATE_END="07-08-2019"
+DATE_END="15-10-2019"
 #######################################################################################################################
 
 function load_instances_data {
@@ -15,42 +15,42 @@ function load_instances_data {
 
     i=0; j=0; z=0 
     while [[ $(jq ".Reservations[$i].Instances[$j].State.Name" < $INSTANCES_TMP_FILE ) != "null" ]]; do
-    while [[ $(jq ".Reservations[$i].Instances[$j].State.Name" < $INSTANCES_TMP_FILE ) != "null" ]]; do
+        while [[ $(jq ".Reservations[$i].Instances[$j].State.Name" < $INSTANCES_TMP_FILE ) != "null" ]]; do
+        
+           instance_id[$z]=$(jq ".Reservations[$i].Instances[$j].InstanceId" < $INSTANCES_TMP_FILE | tr -d ' "')
     
-       instance_id[$z]=$(jq ".Reservations[$i].Instances[$j].InstanceId" < $INSTANCES_TMP_FILE | tr -d ' "')
-
-       instance_state[$z]=$(jq ".Reservations[$i].Instances[$j].State.Name" < $INSTANCES_TMP_FILE | tr -d ' "')
-
-       instance_launch_time[$z]=$(jq ".Reservations[$i].Instances[$j].LaunchTime" < $INSTANCES_TMP_FILE | tr -d ' "')
+           instance_state[$z]=$(jq ".Reservations[$i].Instances[$j].State.Name" < $INSTANCES_TMP_FILE | tr -d ' "')
     
-       instance_public_ip[$z]=$(jq ".Reservations[$i].Instances[$j].PublicIpAddress" < $INSTANCES_TMP_FILE | tr -d ' "')
-       if [[ ${instance_public_ip[$z]} == "null" ]]; then instance_public_ip[$z]="---"; fi
+           instance_launch_time[$z]=$(jq ".Reservations[$i].Instances[$j].LaunchTime" < $INSTANCES_TMP_FILE | tr -d ' "')
+        
+           instance_public_ip[$z]=$(jq ".Reservations[$i].Instances[$j].PublicIpAddress" < $INSTANCES_TMP_FILE | tr -d ' "')
+           if [[ ${instance_public_ip[$z]} == "null" ]]; then instance_public_ip[$z]="---"; fi
+        
+           instance_private_ip[$z]=$(jq ".Reservations[$i].Instances[$j].PrivateIpAddress" < $INSTANCES_TMP_FILE | tr -d ' "')
+           if [[ ${instance_private_ip[$z]} == "null" ]]; then instance_private_ip[$z]="---"; fi
+        
+           tag_id=0
+           while [[ $(jq ".Reservations[$i].Instances[$j].Tags[$tag_id].Key" < $INSTANCES_TMP_FILE ) != "null" ]]; do
+               instance_tag_key=$(jq ".Reservations[$i].Instances[$j].Tags[$tag_id].Key" < $INSTANCES_TMP_FILE | tr -d ' "')
+               if [[ ${instance_tag_key} == "Name" ]]; then
+                   instance_name[$z]=$(jq ".Reservations[$i].Instances[$j].Tags[$tag_id].Value" < $INSTANCES_TMP_FILE | tr -d ' "')
+                   break
+               else
+                   instance_name[$z]="---"
+               fi
+               tag_id=$((tag_id+1))
+           done
     
-       instance_private_ip[$z]=$(jq ".Reservations[$i].Instances[$j].PrivateIpAddress" < $INSTANCES_TMP_FILE | tr -d ' "')
-       if [[ ${instance_private_ip[$z]} == "null" ]]; then instance_private_ip[$z]="---"; fi
     
-       tag_id=0
-       while [[ $(jq ".Reservations[$i].Instances[$j].Tags[$tag_id].Key" < $INSTANCES_TMP_FILE ) != "null" ]]; do
-           instance_tag_key=$(jq ".Reservations[$i].Instances[$j].Tags[$tag_id].Key" < $INSTANCES_TMP_FILE | tr -d ' "')
-           if [[ ${instance_tag_key} == "Name" ]]; then
-               instance_name[$z]=$(jq ".Reservations[$i].Instances[$j].Tags[$tag_id].Value" < $INSTANCES_TMP_FILE | tr -d ' "')
-               break
-           else
-               instance_name[$z]="---"
-           fi
-           tag_id=$((tag_id+1))
-       done
-
-
-       instance_type[$z]=$(jq ".Reservations[$i].Instances[$j].InstanceType" < $INSTANCES_TMP_FILE | tr -d ' "')
-       instance_subnet[$z]=$(jq ".Reservations[$i].Instances[$j].SubnetId" < $INSTANCES_TMP_FILE | tr -d ' "')
-       instance_vpc[$z]=$(jq ".Reservations[$i].Instances[$j].VpcId" < $INSTANCES_TMP_FILE | tr -d ' "')
-       instance_key_name[$z]=$(jq ".Reservations[$i].Instances[$j].KeyName" < $INSTANCES_TMP_FILE | tr -d ' "')
-       instance_image_id[$z]=$(jq ".Reservations[$i].Instances[$j].ImageId" < $INSTANCES_TMP_FILE | tr -d ' "')
-
-       j=$((j+1))
-       z=$((z+1))
-    done
+           instance_type[$z]=$(jq ".Reservations[$i].Instances[$j].InstanceType" < $INSTANCES_TMP_FILE | tr -d ' "')
+           instance_subnet[$z]=$(jq ".Reservations[$i].Instances[$j].SubnetId" < $INSTANCES_TMP_FILE | tr -d ' "')
+           instance_vpc[$z]=$(jq ".Reservations[$i].Instances[$j].VpcId" < $INSTANCES_TMP_FILE | tr -d ' "')
+           instance_key_name[$z]=$(jq ".Reservations[$i].Instances[$j].KeyName" < $INSTANCES_TMP_FILE | tr -d ' "')
+           instance_image_id[$z]=$(jq ".Reservations[$i].Instances[$j].ImageId" < $INSTANCES_TMP_FILE | tr -d ' "')
+    
+           j=$((j+1))
+           z=$((z+1))
+        done
        j=0 
        i=$((i+1))
     done
