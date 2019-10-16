@@ -4,10 +4,10 @@
 #######################################################################################################################
 AWS_SHELL_TK_SCRIPT_NAME="aws-shell-tk"
 #######################################################################################################################
-SCRIPT_VERSION="0.72a"
+SCRIPT_VERSION="0.73a"
 AUTHOR="Orlando Hehl Rebelo dos Santos"
 SCRIPT_DATE_INI="10-01-2018"
-SCRIPT_DATE_END="14-09-2019"
+SCRIPT_DATE_END="16-09-2019"
 #######################################################################################################################
 
 #######################################################################################################################
@@ -33,9 +33,7 @@ target=''
 
 INSTANCE_USR="ec2-user"
 #INSTANCE_NAME=""
-BOOTSTRAP_FILE=./meteor-user-data.template.txt
 KEY_PAIR="ohrs-aws-sp-br"
-AMI_ID="ami-3d4d0f51"
 
 usage(){
         echo $SCRIPT_NAME
@@ -46,7 +44,7 @@ usage(){
 	echo "  -P   Set AWS user profile name"
 	echo "  -R   Region"
 	echo "  -O   Output format"
-	echo "  -o   Option number for noninteractivity"
+	echo "  -o   Option number for noninteractivity mode"
 	echo "  -s   Service: ec2|s3|rds"
 	echo "  -l   List instances"
 	echo "  -a   Action to apply to EC2 instances: ssh|scp|browser|run|start|stop|terminate"
@@ -156,7 +154,7 @@ if [[ $EC2_ACTION == "SCP_INSTANCE" ]]; then
     fi
 fi
 
-if [[ $EC2_ACTION == "SR-CMD_INSTANCE" ]]; then
+if [[ $EC2_ACTION == "RCMD_INSTANCE" ]]; then
     if [[ -n $1 ]]; then
         SR_CMD="$1"
     else
