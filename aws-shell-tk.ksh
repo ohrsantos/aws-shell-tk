@@ -4,7 +4,7 @@
 #######################################################################################################################
 AWS_SHELL_TK_SCRIPT_NAME="aws-shell-tk"
 #######################################################################################################################
-SCRIPT_VERSION="0.75a"
+SCRIPT_VERSION="0.76a"
 AUTHOR="Orlando Hehl Rebelo dos Santos"
 SCRIPT_DATE_INI="10-01-2018"
 SCRIPT_DATE_END="16-09-2019"
@@ -19,6 +19,10 @@ if [ -n "$OHRS_STUFF_PATH" ]; then
     source $OHRS_STUFF_PATH/etc/color-constants.sh
 fi
 source $AWS_SHELL_TK_DIR/ec2-aws-shell-tk.ksh
+
+if [ -e "$AWS_SHELL_TK_DIR/color-constants.sh" ]; then
+    source $AWS_SHELL_TK_DIR/color-constants.sh
+fi
 
 printf "$AWS_SHELL_TK_SCRIPT_NAME $SCRIPT_VERSION/$EC2_AWS_SHELL_TK_VERSION - $SCRIPT_DATE_END  \n\n"
 
