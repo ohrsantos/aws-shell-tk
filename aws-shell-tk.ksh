@@ -20,7 +20,7 @@ if [ -n "$OHRS_STUFF_PATH" ]; then
 fi
 source $AWS_SHELL_TK_DIR/ec2-aws-shell-tk.ksh
 
-if [ -e "$AWS_SHELL_TK_DIR/color-constants.sh" ]; then
+if [ -f "$AWS_SHELL_TK_DIR/color-constants.sh" ]; then
     source $AWS_SHELL_TK_DIR/color-constants.sh
 fi
 
