@@ -128,7 +128,7 @@ function run_ec2_action {
            echo "$CMD"
            eval "$CMD"
            ;;  
-       SR-CMD_INSTANCE )
+       RCMD_INSTANCE )
            CMD="ssh -YCo \"StrictHostKeyChecking no\" -i $PEM_FILE $INSTANCE_USR@$ip_addr <<< \"$SR_CMD\""
            echo "$CMD"
            eval "$CMD"
