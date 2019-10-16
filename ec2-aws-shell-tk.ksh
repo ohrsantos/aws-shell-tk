@@ -1,13 +1,11 @@
 #!/bin/ksh           
-#        1         2         3         4         5         6         7         8         9         0
-#2345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789
 #######################################################################################################################
 SCRIPT_NAME="ec2-aws-shell-tk"
 #######################################################################################################################
-EC2_AWS_SHELL_TK_VERSION="0.61a"
+EC2_AWS_SHELL_TK_VERSION="0.62a"
 AUTHOR="Orlando Hehl Rebelo dos Santos"
 DATE_INI="10-01-2018"
-DATE_END="15-10-2019"
+DATE_END="16-10-2019"
 #######################################################################################################################
 
 function load_instances_data {
@@ -136,7 +134,7 @@ function run_ec2_action {
            eval "$CMD"
            ;;  
        SCP_INSTANCE )
-           CMD="scp  -Co "StrictHostKeyChecking no" -i $PEM_FILE $LOCAL_FILE $INSTANCE_USR@$ip_addr:$REMOTE_FILE"
+           CMD="scp  -Co \"StrictHostKeyChecking no\"  -i $PEM_FILE $LOCAL_FILE $INSTANCE_USR@$ip_addr:$REMOTE_FILE"
            echo "$CMD"
            eval "$CMD"
            ;;  
